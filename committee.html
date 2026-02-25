@@ -260,19 +260,31 @@ body.menu-open { overflow: hidden; }
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
 }
+
 .sponsor-card {
-  background: var(--white);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.03);
   display: flex;
+  flex-direction: column; /* Stack logo above name */
   align-items: center;
   justify-content: center;
+  padding: 1.5rem;
   text-align: center;
-  border-left: 4px solid var(--gold);
-  transition: box-shadow 0.3s;
+  gap: 1rem;
 }
-.sponsor-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+
+.sponsor-logo {
+  max-width: 120px; /* Adjust based on your preference */
+  max-height: 80px;
+  object-fit: contain;
+  filter: grayscale(100%); /* Optional: makes them look uniform */
+  transition: filter 0.3s ease;
+  opacity: 0.8;
+}
+
+.sponsor-card:hover .sponsor-logo {
+  filter: grayscale(0%); /* Brings color back on hover */
+  opacity: 1;
+}
+  
 .sponsor-name { font-weight: 600; font-size: 0.95rem; color: var(--charcoal); line-height: 1.4; }
 
 .gratitude-text {
@@ -403,25 +415,35 @@ footer a { color: var(--gold); text-decoration: none; }
 
     <div class="sponsors-grid">
       
-      <div class="sponsor-card reveal">
-        <span class="sponsor-name">Arabic Linguistics Society</span>
-      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-card reveal">
+          <img src="ALS.png" alt="Arabic Linguistics Society Logo" class="sponsor-logo">
+          <span class="sponsor-name">Arabic Linguistics Society</span>
+        </div>
 
-      <div class="sponsor-card reveal">
-        <span class="sponsor-name">Center for the Study of Global Change</span>
-      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-card reveal">
+          <img src="IULogo.png" alt="Center for the Study of Global Change" class="sponsor-logo">
+          <span class="sponsor-name">Center for the Study of Global Change</span>
+        </div>
 
-      <div class="sponsor-card reveal">
-        <span class="sponsor-name">College Arts & Humanities Institute</span>
-      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-card reveal">
+          <img src="IULogo.png" alt="College Arts & Humanities Institute" class="sponsor-logo">
+          <span class="sponsor-name">College Arts & Humanities Institute</span>
+        </div>
 
-      <div class="sponsor-card reveal">
-        <span class="sponsor-name">Department of Linguistics</span>
-      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-card reveal">
+          <img src="IULogo.png" alt="Department of Linguistics" class="sponsor-logo">
+          <span class="sponsor-name">Department of Linguistics</span>
+        </div>
 
-      <div class="sponsor-card reveal">
-        <span class="sponsor-name">Department of Middle Eastern Languages and Cultures</span>
-      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-card reveal">
+          <img src="IULogo.png" alt="Department of Middle Eastern Languages and Cultures" class="sponsor-logo">
+          <span class="sponsor-name">Department of Middle Eastern Languages and Cultures</span>
+        </div>
 
       <div class="sponsor-card reveal">
         <span class="sponsor-name">Department of Religious Studies</span>
