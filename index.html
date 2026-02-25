@@ -3,24 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASAL 39 — 39th Annual Symposium on Arabic Linguistics</title>
+<title>ASAL 39 - 39th Annual Symposium on Arabic Linguistics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* =========================================================
+   ASAL 39 custom enhancements (hero logos + sponsors)
+   Safe additions on top of existing style.css
+   ========================================================= */
+
+/* Navbar logo row replacement */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Hide old separator if style.css still expects it */
+.nav-logo-sep {
+  display: none !important;
+}
+
+/* Old nav logo badge styles kept harmlessly (not currently used) */
+.nav-logo-badge {
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 30%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+
+.nav-logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Hero logo row */
+.logo-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 56px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero logo rectangles */
+.logo-badge-squircle {
+  width: 300px;
+  height: 130px;
+  background-color: #ffffff;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* Make logo itself more prominent while preserving full visibility */
+.logo-badge-squircle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* Hide old hero composite logo on this page */
+.hero-logo-container {
+  display: none !important;
+}
+
+/* Ensure hero content stays above canvas/overlay */
+#home {
+  position: relative;
+}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   Sponsors Section (font emphasis)
+   ========================= */
+
+#sponsors .section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 1.25rem;
+}
+
+.sponsors-heading-area {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 2.25rem auto;
+}
+
+.gratitude-text {
+  opacity: 0.85;
+  margin-top: 0.75rem;
+  line-height: 1.65;
+}
+
+/* Visual grouping without labels */
+.sponsor-group + .sponsor-group {
+  margin-top: 1.1rem;
+}
+
+.sponsors-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Layout by visual emphasis */
+.sponsors-grid-large {
+  grid-template-columns: minmax(340px, 760px);
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.sponsors-grid-medium {
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+}
+
+.sponsors-grid-standard {
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+}
+
+/* Base card */
+.sponsor-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+}
+
+.sponsor-card.text-only {
+  justify-content: center;
+  text-align: center;
+}
+
+.sponsor-logo {
+  flex: 0 0 auto;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.sponsor-name {
+  display: block;
+  line-height: 1.25;
+  color: #111827;
+}
+
+/* Large emphasis */
+.sponsor-large {
+  min-height: 112px;
+  justify-content: center;
+  text-align: center;
+  gap: 18px;
+  padding: 18px 22px;
+}
+
+.sponsor-logo-large {
+  height: 58px;
+  max-width: 110px;
+}
+
+.sponsor-name-large {
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+/* Medium emphasis */
+.sponsor-medium {
+  min-height: 98px;
+}
+
+.sponsor-logo-medium {
+  height: 46px;
+  max-width: 84px;
+}
+
+.sponsor-name-medium {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Standard emphasis */
+.sponsor-standard {
+  min-height: 82px;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.sponsor-logo-standard {
+  height: 34px;
+  max-width: 60px;
+}
+
+.sponsor-name-standard {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Optional helper for wide lockups */
+.sponsor-logo.lockup-wide {
+  max-width: 170px;
+}
+
+/* Responsive: sponsors */
+@media (max-width: 980px) {
+  .sponsors-grid-medium {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsors-grid-standard {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  #sponsors .section-inner {
+    padding: 4rem 1rem;
+  }
+
+  .sponsors-grid-large,
+  .sponsors-grid-medium,
+  .sponsors-grid-standard {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-name-large { font-size: 1.05rem; }
+  .sponsor-name-medium { font-size: 0.95rem; }
+  .sponsor-name-standard { font-size: 0.9rem; }
+}
+
+/* Responsive: hero logos */
+@media (max-width: 900px) {
+  .logo-row {
+    gap: 28px;
+    margin-bottom: 18px;
+  }
+
+  .logo-badge-squircle {
+    width: 200px;
+    height: 110px;
+    padding: 8px 12px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo-row {
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+
+  .logo-badge-squircle {
+    width: 160px;
+    height: 88px;
+    padding: 6px 10px;
+    border-radius: 18px;
+  }
+
+  .nav-logo-badge {
+    width: 34px;
+    height: 34px;
+    padding: 4px;
+  }
+
+  .nav-logo {
+    gap: 8px;
+  }
+}
+</style>
 </head>
 <body>
 
 <!-- ══ NAVBAR ══ -->
 <nav>
-  <a href="index.html" class="nav-logo">
-    <div class="dept-logo-composite">
-      <img src="log.jpg" alt="IU Trident" class="logo-trident">
-      <img src="o.png" alt="Department Branding" class="logo-text-img">
-    </div>
-    <span class="nav-logo-sep"></span>
+  <a href="index.html" class="nav-logo" aria-label="ASAL 39 Home">
     <span class="nav-logo-text">ASAL 39</span>
   </a>
+
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
@@ -31,6 +333,7 @@
     <li><a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d"
           target="_blank" class="nav-register">Register Now</a></li>
   </ul>
+
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
@@ -51,49 +354,52 @@
 <section id="home">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-overlay"></div>
+
   <div class="hero-content">
+    <!-- Original hero logo container kept in structure but hidden by CSS -->
     <div class="hero-logo-container">
       <div class="dept-logo-composite hero-variant">
         <img src="log.jpg" alt="IU Trident" class="logo-trident">
         <img src="o.png" alt="Department Branding" class="logo-text-img">
       </div>
     </div>
+
+    <!-- New hero logos -->
+    <div class="logo-row">
+      <div class="logo-badge-squircle">
+        <img src="hls.png" alt="Hamilton Lugar School logo">
+      </div>
+      <div class="logo-badge-squircle">
+        <img src="MELC-76.svg" alt="MELC logo">
+      </div>
+    </div>
+
     <span class="hero-eyebrow">ASAL 39 · Indiana University Bloomington</span>
     <h1 class="hero-title">39th Annual Symposium<br>on Arabic Linguistics</h1>
-    <p class="hero-date">March 27–29, 2026</p>
+    <p class="hero-date">March 27-29, 2026</p>
     <p class="hero-tagline">Advancing the Scientific Study of Arabic Language</p>
+
     <div class="hero-buttons">
       <a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d"
          target="_blank" class="btn-primary">Register for ASAL 39</a>
       <a href="program.html" class="btn-secondary">View Program</a>
     </div>
   </div>
+
   <div class="scroll-indicator">
     <span>Scroll</span>
     <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<!-- ══ COUNTDOWN ══ -->
-<div id="countdown-strip">
-  <p class="countdown-label">Conference Begins In</p>
-  <div class="countdown-grid">
-    <div class="countdown-box"><span class="countdown-num" id="cd-days">00</span><span class="countdown-unit">Days</span></div>
-    <div class="countdown-colon">:</div>
-    <div class="countdown-box"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-unit">Hours</span></div>
-    <div class="countdown-colon">:</div>
-    <div class="countdown-box"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-unit">Minutes</span></div>
-    <div class="countdown-colon">:</div>
-    <div class="countdown-box"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-unit">Seconds</span></div>
-  </div>
-</div>
+
 
 <!-- ══ QUICK NAV ══ -->
 <div id="quicknav">
   <div class="quicknav-inner">
-    <a href="about.html"     class="ql-card"><span class="ql-card-icon">📖</span>About</a>
-    <a href="keynotes.html"  class="ql-card"><span class="ql-card-icon">🎤</span>Keynotes</a>
-    <a href="program.html"   class="ql-card"><span class="ql-card-icon">📅</span>Program</a>
+    <a href="about.html" class="ql-card"><span class="ql-card-icon">📖</span>About</a>
+    <a href="keynotes.html" class="ql-card"><span class="ql-card-icon">🎤</span>Keynotes</a>
+    <a href="program.html" class="ql-card"><span class="ql-card-icon">📅</span>Program</a>
     <a href="practical.html" class="ql-card"><span class="ql-card-icon">🗺️</span>Practical Info</a>
     <a href="committee.html" class="ql-card"><span class="ql-card-icon">👥</span>Committee</a>
   </div>
@@ -105,17 +411,109 @@
     <span class="memoriam-eyebrow">In Memoriam</span>
     <div class="memoriam-rule"></div>
     <h2 class="memoriam-name">Professor Salman Al-Ani</h2>
-    <p class="memoriam-dates">1935 – 2024</p>
+    <p class="memoriam-dates">1935 - 2024</p>
     <blockquote class="memoriam-quote">
-      This conference honors the legacy of the late Professor Salman Al-Ani (1935–2024) for his outstanding contributions to the field of Arabic Linguistics. His pioneering work and dedication have profoundly influenced generations of scholars and continue to inspire the study of Arabic linguistics worldwide.
+      This conference honors the legacy of the late Professor Salman Al-Ani (1935-2024) for his outstanding contributions to the field of Arabic Linguistics. His pioneering work and dedication have profoundly influenced generations of scholars and continue to inspire the study of Arabic linguistics worldwide.
     </blockquote>
+  </div>
+</section>
+
+<!-- ══ SPONSORS ══ -->
+<section id="sponsors" style="background:var(--offwhite);">
+  <div class="section-inner">
+    <div class="sponsors-heading-area">
+      <span class="eyebrow">Proudly Supported By</span>
+      <h2 class="section-heading">Conference Sponsors</h2>
+      <p class="gratitude-text">
+        We are deeply thankful to our sponsors for their generous support of ASAL 39. Their contributions make this symposium possible.
+      </p>
+    </div>
+
+    <!-- Large emphasis -->
+    <div class="sponsor-group sponsor-group-large">
+      <div class="sponsors-grid sponsors-grid-large">
+        <div class="sponsor-card sponsor-large reveal">
+          <img src="IULogo.png" alt="IU Research and Creativity Activity Conference Grant" class="sponsor-logo sponsor-logo-large">
+          <span class="sponsor-name sponsor-name-large">IU Research & Creativity Activity Conference Grant</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium emphasis -->
+    <div class="sponsor-group sponsor-group-medium">
+      <div class="sponsors-grid sponsors-grid-medium">
+
+        <div class="sponsor-card sponsor-medium reveal">
+          <img src="ALS.png" alt="Arabic Linguistics Society" class="sponsor-logo sponsor-logo-medium">
+          <span class="sponsor-name sponsor-name-medium">Arabic Linguistics Society</span>
+        </div>
+
+        <div class="sponsor-card sponsor-medium reveal">
+          <img src="IULogo.png" alt="College Arts and Sciences Institute" class="sponsor-logo sponsor-logo-medium">
+          <span class="sponsor-name sponsor-name-medium">College Arts and Sciences Institute</span>
+        </div>
+
+        <div class="sponsor-card sponsor-medium reveal">
+          <img src="IULogo.png" alt="Department of Middle Eastern Languages and Cultures" class="sponsor-logo sponsor-logo-medium">
+          <span class="sponsor-name sponsor-name-medium">Department of Middle Eastern Languages and Cultures</span>
+        </div>
+
+        <div class="sponsor-card sponsor-medium reveal">
+          <img src="MELCCLUBLOGO.png" alt="Middle Eastern Languages and Cultures Club" class="sponsor-logo sponsor-logo-medium">
+          <span class="sponsor-name sponsor-name-medium">Middle Eastern Languages and Cultures Club</span>
+        </div>
+
+        <div class="sponsor-card sponsor-medium text-only reveal">
+          <span class="sponsor-name sponsor-name-medium">Professor Salman Al-Ani Family</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Standard emphasis -->
+    <div class="sponsor-group sponsor-group-standard">
+      <div class="sponsors-grid sponsors-grid-standard">
+
+        <div class="sponsor-card sponsor-standard reveal">
+          <img src="IULogo.png" alt="Center for the Study of Global Change" class="sponsor-logo sponsor-logo-standard">
+          <span class="sponsor-name sponsor-name-standard">Center for the Study of Global Change</span>
+        </div>
+
+        <div class="sponsor-card sponsor-standard reveal">
+          <img src="IULogo.png" alt="Center for the Study of the Middle East" class="sponsor-logo sponsor-logo-standard">
+          <span class="sponsor-name sponsor-name-standard">Center for the Study of the Middle East</span>
+        </div>
+
+        <div class="sponsor-card sponsor-standard reveal">
+          <img src="IULogo.png" alt="Department of Linguistics" class="sponsor-logo sponsor-logo-standard">
+          <span class="sponsor-name sponsor-name-standard">Department of Linguistics</span>
+        </div>
+
+        <div class="sponsor-card sponsor-standard reveal">
+          <img src="IULogo.png" alt="Department of Religious Studies" class="sponsor-logo sponsor-logo-standard">
+          <span class="sponsor-name sponsor-name-standard">Department of Religious Studies</span>
+        </div>
+
+        <div class="sponsor-card sponsor-standard reveal">
+          <img src="IULogo.png" alt="Department of Second Language Studies" class="sponsor-logo sponsor-logo-standard">
+          <span class="sponsor-name sponsor-name-standard">Department of Second Language Studies</span>
+        </div>
+
+        <div class="sponsor-card sponsor-standard reveal">
+          <img src="IULogo.png" alt="Islamic Studies Program" class="sponsor-logo sponsor-logo-standard">
+          <span class="sponsor-name sponsor-name-standard">Islamic Studies Program</span>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
 <!-- ══ FOOTER ══ -->
 <footer>
   <p><strong>39th Annual Symposium on Arabic Linguistics (ASAL 39)</strong></p>
-  <p>March 27–29, 2026 · Indiana University Bloomington</p>
+  <p>March 27-29, 2026 · Indiana University Bloomington</p>
   <div style="margin-top:2rem; opacity: 0.8; display: flex; justify-content: center;">
      <img src="log.jpg" style="height: 40px;" alt="IU Trident">
   </div>
@@ -136,21 +534,16 @@ const mob = document.getElementById('mobileMenu');
 ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
 mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
 
-/* ── COUNTDOWN ── */
-function pad(n) { return String(n).padStart(2,'0'); }
-function tick() {
-  const diff = Math.max(0, new Date('2026-03-27T09:00:00-05:00') - Date.now());
-  document.getElementById('cd-days').textContent  = pad(Math.floor(diff/86400000));
-  document.getElementById('cd-hours').textContent = pad(Math.floor(diff%86400000/3600000));
-  document.getElementById('cd-mins').textContent  = pad(Math.floor(diff%3600000/60000));
-  document.getElementById('cd-secs').textContent  = pad(Math.floor(diff%60000/1000));
-}
-tick(); setInterval(tick, 1000);
-
 /* ── SCROLL REVEAL ── */
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
 }, { threshold: 0.12 });
+
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
 /* ── PARTICLE CANVAS ── */
@@ -158,41 +551,73 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   const canvas = document.getElementById('hero-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, pts = [];
-  function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
   function Pt() {
     this.x = Math.random() * W;
     this.y = Math.random() * H;
-    this.vx = (Math.random() - .5) * .38;
-    this.vy = (Math.random() - .5) * .38;
-    this.r = Math.random() * 1.4 + .5;
-    this.gold = Math.random() < .18;
+    this.vx = (Math.random() - 0.5) * 0.38;
+    this.vy = (Math.random() - 0.5) * 0.38;
+    this.r = Math.random() * 1.4 + 0.5;
+    this.gold = Math.random() < 0.18;
   }
-  function init() { pts = []; const n = Math.floor((W * H) / 9000); for (let i = 0; i < n; i++) pts.push(new Pt()); }
+
+  function init() {
+    pts = [];
+    const n = Math.floor((W * H) / 9000);
+    for (let i = 0; i < n; i++) pts.push(new Pt());
+  }
+
   function frame() {
     ctx.clearRect(0, 0, W, H);
+
     pts.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = p.gold ? 'rgba(201,168,76,.65)' : 'rgba(255,255,255,.48)';
       ctx.fill();
     });
+
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
-        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+        const dx = pts[i].x - pts[j].x;
+        const dy = pts[i].y - pts[j].y;
         const d = Math.sqrt(dx * dx + dy * dy);
+
         if (d < 110) {
-          ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y);
-          ctx.strokeStyle = `rgba(255,255,255,${.07 * (1 - d / 110)})`;
-          ctx.lineWidth = .5; ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x, pts[i].y);
+          ctx.lineTo(pts[j].x, pts[j].y);
+          ctx.strokeStyle = `rgba(255,255,255,${0.07 * (1 - d / 110)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
         }
       }
     }
+
     requestAnimationFrame(frame);
   }
-  resize(); init(); frame();
-  window.addEventListener('resize', () => { resize(); init(); });
+
+  resize();
+  init();
+  frame();
+
+  window.addEventListener('resize', () => {
+    resize();
+    init();
+  });
 })();
 </script>
 </body>
