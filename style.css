@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   ASAL 39 — Shared Stylesheet
+   ASAL 39 —  Shared Stylesheet
    ══════════════════════════════════════════ */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -740,4 +740,4 @@ footer strong { color: rgba(255,255,255,0.72); }
   .speakers-grid { grid-template-columns: repeat(4, 1fr); }
   .practical-grid { grid-template-columns: repeat(3, 1fr); }
   .committee-grid { grid-template-columns: repeat(3, 1fr); }
-}
+} 
