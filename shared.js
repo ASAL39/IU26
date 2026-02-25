@@ -8,11 +8,13 @@
     ham.addEventListener('click', () => {
       ham.classList.toggle('open');
       mob.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
     });
     mob.querySelectorAll('a').forEach(a =>
       a.addEventListener('click', () => {
         ham.classList.remove('open');
         mob.classList.remove('open');
+        document.body.classList.remove('menu-open');
       })
     );
   }
