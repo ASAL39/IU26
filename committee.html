@@ -255,38 +255,46 @@ body.menu-open { overflow: hidden; }
 
 /* ══ SPONSORS ══ */
 .sponsors-heading-area { text-align: center; margin-bottom: 4rem; }
+
 .sponsors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.25rem;
 }
 
 .sponsor-card {
   display: flex;
-  flex-direction: column; /* Stack logo above name */
+  flex-direction: row; /* Horizontal layout */
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  text-align: center;
-  gap: 1rem;
+  justify-content: flex-start;
+  padding: 1.2rem;
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.05);
+  gap: 15px;
+  transition: all 0.3s ease;
 }
 
-.sponsor-logo {
-  max-width: 120px; /* Adjust based on your preference */
-  max-height: 80px;
+.sponsor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.sponsor-logo-small {
+  width: 45px;
+  height: 45px;
   object-fit: contain;
-  filter: grayscale(100%); /* Optional: makes them look uniform */
-  transition: filter 0.3s ease;
-  opacity: 0.8;
+  flex-shrink: 0; /* Keeps logo from squishing */
 }
 
-.sponsor-card:hover .sponsor-logo {
-  filter: grayscale(0%); /* Brings color back on hover */
-  opacity: 1;
+.sponsor-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--charcoal);
+  text-align: left;
+  line-height: 1.3;
 }
   
-.sponsor-name { font-weight: 600; font-size: 0.95rem; color: var(--charcoal); line-height: 1.4; }
-
 .gratitude-text {
   max-width: 700px;
   margin: 0 auto 3rem;
@@ -417,47 +425,59 @@ footer a { color: var(--gold); text-decoration: none; }
 
 <div class="sponsors-grid">
   <div class="sponsor-card reveal">
-    <img src="ALS.png" alt="ALS Logo" class="sponsor-logo-small">
+    <img src="ALS.png" alt="ALS" class="sponsor-logo-small">
     <span class="sponsor-name">Arabic Linguistics Society</span>
   </div>
 
   <div class="sponsor-card reveal">
-    <img src="MELC-75.png" alt="MELC Logo" class="sponsor-logo-small">
-    <span class="sponsor-name">Department of Middle Eastern Languages and Cultures</span>
-  </div>
-
-  <div class="sponsor-card reveal">
-    <img src="MELCCLUBLOGO.png" alt="MELC Club Logo" class="sponsor-logo-small">
-    <span class="sponsor-name">MELC Club</span>
-  </div>
-
-  <div class="sponsor-card reveal">
-    <img src="IULogo.png" alt="IU Logo" class="sponsor-logo-small">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
     <span class="sponsor-name">Center for the Study of Global Change</span>
   </div>
 
   <div class="sponsor-card reveal">
-    <img src="IULogo.png" alt="IU Logo" class="sponsor-logo-small">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
     <span class="sponsor-name">College Arts & Humanities Institute</span>
   </div>
 
   <div class="sponsor-card reveal">
-    <img src="IULogo.png" alt="IU Logo" class="sponsor-logo-small">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
     <span class="sponsor-name">Department of Linguistics</span>
   </div>
 
   <div class="sponsor-card reveal">
-    <img src="IULogo.png" alt="IU Logo" class="sponsor-logo-small">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
+    <span class="sponsor-name">Department of Middle Eastern Languages and Cultures</span>
+  </div>
+
+  <div class="sponsor-card reveal">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
+    <span class="sponsor-name">Department of Religious Studies</span>
+  </div>
+
+  <div class="sponsor-card reveal">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
+    <span class="sponsor-name">Department of Second Language Studies</span>
+  </div>
+
+  <div class="sponsor-card reveal">
+    <span class="sponsor-name" style="margin-left: 60px;">Family of Professor Salman Al-Ani</span>
+  </div>
+
+  <div class="sponsor-card reveal">
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
     <span class="sponsor-name">Islamic Studies Program</span>
   </div>
 
   <div class="sponsor-card reveal">
-    <img src="IULogo.png" alt="IU Logo" class="sponsor-logo-small">
-    <span class="sponsor-name">Department of Religious Studies</span>
+    <img src="IULogo.png" alt="IU" class="sponsor-logo-small">
+    <span class="sponsor-name">IU Research & Creativity Activity Conference Grant</span>
+  </div>
+
+  <div class="sponsor-card reveal">
+    <img src="MELCCLUBLOGO.png" alt="MELC Club" class="sponsor-logo-small">
+    <span class="sponsor-name">MELC Club</span>
   </div>
 </div>
-      
-  </div>
 </section>
 
 <!-- ══ FOOTER ══ -->
