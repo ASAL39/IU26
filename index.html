@@ -14,7 +14,9 @@
    ASAL 39 custom enhancements (hero logos + sponsors)
    Safe additions on top of existing style.css
    ========================================================= */
-
+html {
+  scroll-behavior: smooth;
+}
 /* Navbar logo row replacement */
 .nav-logo {
   display: flex;
@@ -379,12 +381,12 @@
     <p class="hero-date">March 27-29, 2026</p>
     <p class="hero-tagline">Advancing the Scientific Study of Arabic Language</p>
 
-    <div class="hero-buttons">
-      <a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d"
-         target="_blank" class="btn-primary">Register for ASAL 39</a>
-      <a href="program.html" class="btn-secondary">View Program</a>
-    </div>
-  </div>
+<div class="hero-buttons">
+  <a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d"
+     target="_blank" class="btn-primary">Register for ASAL 39</a>
+  <a href="program.html" class="btn-secondary">View Program</a>
+  <a href="#sponsors" class="btn-secondary btn-sponsors-jump">Sponsors</a>
+</div>
 
   <div class="scroll-indicator">
     <span>Scroll</span>
@@ -404,19 +406,6 @@
     <a href="committee.html" class="ql-card"><span class="ql-card-icon">👥</span>Committee</a>
   </div>
 </div>
-
-<!-- ══ IN MEMORIAM ══ -->
-<section id="memoriam">
-  <div class="memoriam-inner reveal">
-    <span class="memoriam-eyebrow">In Memoriam</span>
-    <div class="memoriam-rule"></div>
-    <h2 class="memoriam-name">Professor Salman Al-Ani</h2>
-    <p class="memoriam-dates">1935 - 2024</p>
-    <blockquote class="memoriam-quote">
-      This conference honors the legacy of the late Professor Salman Al-Ani (1935-2024) for his outstanding contributions to the field of Arabic Linguistics. His pioneering work and dedication have profoundly influenced generations of scholars and continue to inspire the study of Arabic linguistics worldwide.
-    </blockquote>
-  </div>
-</section>
 
 <!-- ══ SPONSORS ══ -->
 <section id="sponsors" style="background:var(--offwhite);">
@@ -510,6 +499,20 @@
   </div>
 </section>
 
+
+<!-- ══ IN MEMORIAM ══ -->
+<section id="memoriam">
+  <div class="memoriam-inner reveal">
+    <span class="memoriam-eyebrow">In Memoriam</span>
+    <div class="memoriam-rule"></div>
+    <h2 class="memoriam-name">Professor Salman Al-Ani</h2>
+    <p class="memoriam-dates">1935 - 2024</p>
+    <blockquote class="memoriam-quote">
+      This conference honors the legacy of the late Professor Salman Al-Ani (1935-2024) for his outstanding contributions to the field of Arabic Linguistics. His pioneering work and dedication have profoundly influenced generations of scholars and continue to inspire the study of Arabic linguistics worldwide.
+    </blockquote>
+  </div>
+</section>
+   
 <!-- ══ FOOTER ══ -->
 <footer>
   <p><strong>39th Annual Symposium on Arabic Linguistics (ASAL 39)</strong></p>
