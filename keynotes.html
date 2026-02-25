@@ -219,33 +219,56 @@ body.menu-open { overflow: hidden; }
 /* ══ KEYNOTE PANEL STYLING ══ */
 .keynote-panel {
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: 1fr 1.5fr; /* Gives the text more room than the photo */
   min-height: 500px;
-  align-items: stretch;
+  align-items: center; /* Centers the circle vertically against the text */
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 .keynote-panel.flip { grid-template-columns: 1fr 420px; }
 .keynote-panel.flip .kp-photo { order: 2; }
 .keynote-panel.flip .kp-body  { order: 1; }
 
+/* ══ UPDATED KEYNOTE PHOTO STYLING ══ */
 .kp-photo {
-  overflow: hidden;
-  position: relative;
-  background: linear-gradient(135deg, #1a2a3a, #0d1b2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem; /* Adds space around the circle */
+  background: transparent; /* Removes the old dark rectangular background */
 }
+
 .kp-photo img {
-  width: 100%; height: 100%;
+  width: 280px; /* Adjust size as needed */
+  height: 280px;
   object-fit: cover;
-  object-position: center top;
-  display: block;
+  border-radius: 50%; /* Makes it a circle */
+  border: 2px solid var(--gold); /* Thin elegant border */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Soft shadow for depth */
+  transition: transform 0.3s ease;
 }
+
+.kp-photo img:hover {
+  transform: scale(1.05); /* Subtle zoom effect on hover */
+}
+
+/* Fix for the placeholder circles */
 .kp-photo-placeholder {
-  width: 100%; height: 100%; min-height: 420px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 6rem; font-weight: 700;
-  color: rgba(255,255,255,.15);
-  letter-spacing: .05em;
+  width: 280px;
+  height: 280px;
+  min-height: 280px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--gold);
 }
+
+/* Responsive adjustment for mobile */
+@media (max-width: 1024px) {
+  .kp-photo img, .kp-photo-placeholder {
+    width: 220px;
+    height: 220px;
+  }
+}
+  
 .kp-day-badge {
   position: absolute; top: 2rem; left: 2rem;
   background: rgba(13,27,42,.85);
