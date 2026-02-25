@@ -124,22 +124,67 @@ nav {
 .hamburger {
   display: none; flex-direction: column; gap: 5px;
   cursor: pointer; padding: 4px; background: none; border: none;
+  position: relative; z-index: 1001;
 }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); transition: all 0.3s; border-radius: 2px; }
 
 .mobile-menu {
   display: none;
   position: fixed;
-  top: 110px; left: 0; right: 0;
-  background: rgba(13,27,42,0.98);
-  padding: 1.5rem 2rem;
-  z-index: 999;
+  inset: 0;
+  background: rgba(13,27,42,0.80);
+  z-index: 998;
   flex-direction: column;
-  gap: 0;
-  border-top: 1px solid rgba(201,168,76,0.2);
-  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+  gap: 1.15rem;
+  padding: 2rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.mobile-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 20%, rgba(201,168,76,0.10), transparent 55%);
+  pointer-events: none;
 }
 .mobile-menu.open { display: flex; }
+.mobile-menu a {
+  position: relative;
+  z-index: 1;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.55rem 1rem;
+  transition: color 0.2s, letter-spacing 0.2s, transform 0.2s;
+  font-weight: 500;
+  text-align: center;
+}
+.mobile-menu a:hover,
+.mobile-menu a.active {
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  transform: translateY(-1px);
+}
+.mobile-menu .nav-register {
+  z-index: 1;
+  background: var(--iu-crimson) !important;
+  color: var(--white) !important;
+  border-radius: 999px !important;
+  text-align: center;
+  margin-top: 0.65rem;
+  padding: 0.95rem 2.2rem !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.06em;
+  min-width: min(84vw, 320px);
+}
+body.menu-open { overflow: hidden; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ══ PAGE HERO ══ */
 .page-hero {
@@ -295,7 +340,7 @@ footer a { color: var(--gold); text-decoration: none; }
   <a href="keynotes.html">Keynotes</a>
   <a href="program.html">Program</a>
   <a href="practical.html">Practical Info</a>
-  <a href="#" class="nav-register">Register Now</a>
+  <a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d" target="_blank" class="nav-register">Register Now</a>
 </div>
 
 <!-- ══ PAGE HERO ══ -->
