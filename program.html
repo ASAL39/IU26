@@ -38,37 +38,67 @@ nav {
   border-bottom: 1px solid rgba(201,168,76,0.15);
 }
 
+/* NAV: single badge logo (replaces two-image composite) */
+
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem; /* space between badge and ASAL 39 text */
   text-decoration: none;
 }
 
-.dept-logo-composite {
-  display: flex;
+/* badge container: rectangular-curly shape, matches hero
+   adjust width/height/padding to change prominence */
+.nav-logo-badge {
+  width: 72px;               /* increase to make badge larger */
+  height: 44px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 6px;              /* reduce padding to make logo appear larger */
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
-}
-.logo-trident {
-  height: 60px;
-  width: auto;
-  border-radius: 2px;
-}
-.logo-text-img {
-  height: 48px;
-  width: auto;
-  filter: brightness(0) invert(1);
-  opacity: 0.95;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,0,0,0.06);
+  overflow: hidden;
+  flex: 0 0 auto;
 }
 
-.nav-logo-sep {
+/* image inside badge: keep full lockup visible */
+.nav-logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
   display: block;
-  width: 1px;
-  height: 50px;
-  background: rgba(201,168,76,0.35);
 }
 
+/* keep the site title styling you already have; tweak if needed */
+.nav-logo-text {
+  font-family: 'Playfair Display', serif;
+  color: var(--white);
+  font-size: 1.6rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* reduce repaint flash risk: avoid heavy backdrop-filter conflicts */
+nav {
+  /* keep your rgba background but reduce blur load if you still see flashes */
+  background: rgba(13,27,42,0.97);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* responsive tuning */
+@media (max-width: 980px) {
+  .nav-logo-badge { width: 56px; height: 36px; padding: 5px; border-radius: 10px; }
+  .nav-logo-text  { font-size: 1.2rem; }
+}
+@media (max-width: 480px) {
+  .nav-logo-badge { width: 48px; height: 30px; padding: 4px; }
+  .nav-logo-text  { display: none; } /* conserve space on smallest devices */
+}
 .nav-logo-text {
   font-family: 'Playfair Display', serif;
   color: var(--white);
