@@ -453,14 +453,13 @@ footer a { color: var(--gold); text-decoration: none; }
 
 <!-- ══ NAVBAR ══ -->
 <nav>
-  <a href="index.html" class="nav-logo">
-    <div class="dept-logo-composite">
-      <img src="log.jpg" alt="IU Trident" class="logo-trident">
-      <img src="o.png" alt="Department Branding" class="logo-text-img">
-    </div>
-    <span class="nav-logo-sep"></span>
-    <span class="nav-logo-text">ASAL 39</span>
-  </a>
+<!-- NEW: single badge logo for navbar -->
+<a href="index.html" class="nav-logo" aria-label="ASAL 39 home">
+  <div class="nav-logo-badge" aria-hidden="true">
+    <img src="MELC-76.png" alt="Indiana University logo">
+  </div>
+  <span class="nav-logo-text">ASAL 39</span>
+</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
