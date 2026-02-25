@@ -14,6 +14,20 @@
    ASAL 39 custom enhancements (hero logos + sponsors)
    Safe additions on top of existing style.css
    ========================================================= */
+
+#hero-canvas,
+.hero-overlay,
+.hero-content,
+nav {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+html, body {
+  background: #0b1220; /* or your actual hero dark color */
+}
+   
 html {
   scroll-behavior: smooth;
 }
