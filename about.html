@@ -60,21 +60,22 @@ nav {
   text-decoration: none;
 }
 
-/* badge container: rectangular-curly shape, matches hero
-   adjust width/height/padding to change prominence */
 .nav-logo-badge {
-  width: 72px;               /* increase to make badge larger */
-  height: 44px;
+  width: 120px;               /* Increased from 72px */
+  height: 60px;               /* Increased from 44px */
   background: #ffffff;
-  border-radius: 12px;
-  padding: 6px;              /* reduce padding to make logo appear larger */
+  border-radius: 8px;         /* Slightly sharper corners look more professional for academic logos */
+  padding: 4px;               /* Minimal padding so the logo is as large as possible */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.08);
+  
+  /* CRITICAL FIXES */
+  flex: 0 0 auto;             /* Prevents the navbar from "squishing" the badge */
   overflow: hidden;
-  flex: 0 0 auto;
+  margin-right: 15px;         /* Adds space between badge and "ASAL 39" text */
 }
 
 /* image inside badge: keep full lockup visible */
