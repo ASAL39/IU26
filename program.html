@@ -1,1006 +1,740 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Program — ASAL 39</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program — ASAL 39</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {  --iu-crimson: #990000;  --navy:       #0D1B2A;  --gold:       #C9A84C;  --offwhite:   #F7F5F0;  --charcoal:   #1F1F1F;  --white:      #FFFFFF;}
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: var(--charcoal); background: var(--white); overflow-x: hidden; }
 
-:root {
-  --iu-crimson: #990000;
-  --navy:       #0D1B2A;
-  --gold:       #C9A84C;
-  --offwhite:   #F7F5F0;
-  --charcoal:   #1F1F1F;
-  --white:      #FFFFFF;
-}
+        /* ══ NAVBAR ══ */
+        nav {  position: fixed;  top: 0; left: 0; right: 0;  z-index: 1000;  background: rgba(13,27,42,0.97);  backdrop-filter: blur(10px);  -webkit-backdrop-filter: blur(10px);  height: 110px;  display: flex;  align-items: center;  justify-content: space-between;  padding: 0 2rem;  border-bottom: 1px solid rgba(201,168,76,0.15);}
+        .nav-logo {  display: flex;  align-items: center;  gap: 1rem; text-decoration: none;}
+        .nav-logo-badge {  width: 120px; height: 60px; background: #ffffff; border-radius: 8px; padding: 4px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.08); flex: 0 0 auto; overflow: hidden; margin-right: 15px;}
+        .nav-logo-badge img {  width: 100%; height: 100%; object-fit: contain; object-position: center; display: block;}
+        .nav-logo-text {  font-family: 'Playfair Display', serif;  color: var(--white);  font-size: 1.6rem;  font-weight: 700;  white-space: nowrap;}
+        .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+        .nav-links a {  color: rgba(255,255,255,0.82);  text-decoration: none;  font-size: 0.72rem;  letter-spacing: 0.08em;  text-transform: uppercase;  padding: 0.4rem 0.75rem;  position: relative;  transition: color 0.2s;  font-weight: 500;}
+        .nav-links a.active::after { content: ''; position: absolute; bottom: 0; left: 0.75rem; right: 0.75rem; height: 2px; background: var(--gold); transform: scaleX(1); }
+        .nav-register {  background: var(--iu-crimson) !important;  color: var(--white) !important;  border-radius: 50px !important;  padding: 0.55rem 1.5rem !important;  font-weight: 600 !important;  margin-left: 0.5rem;}
 
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; color: var(--charcoal); background: var(--white); overflow-x: hidden; }
+        .hamburger {  display: none; flex-direction: column; gap: 5px;  cursor: pointer; padding: 4px; background: none; border: none;  position: relative; z-index: 1001;}
+        .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); transition: all 0.3s; border-radius: 2px; }
+        .mobile-menu {  display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.95); z-index: 998; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; backdrop-filter: blur(14px); }
+        .mobile-menu.open { display: flex; }
 
-/* ══ NAVBAR ══ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: rgba(13,27,42,0.97);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  height: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  border-bottom: 1px solid rgba(201,168,76,0.15);
-}
+        /* ══ PAGE HERO ══ */
+        .page-hero {  background: var(--navy);  padding: 200px 2rem 100px;  text-align: center;  position: relative;}
+        .eyebrow {  font-family: 'Space Mono', monospace;  font-size: 0.8rem;  letter-spacing: 0.3em;  text-transform: uppercase;  color: var(--gold);  margin-bottom: 1rem;  display: block;}
+        .page-hero h1 {  font-family: 'Playfair Display', serif;  color: var(--white);  font-size: clamp(2.2rem, 5vw, 4rem);  font-weight: 900;  line-height: 1.1;  margin-bottom: 1.5rem;}
+        .page-hero p {  color: rgba(255,255,255,0.7);  font-size: 1.1rem;  letter-spacing: 0.05em;}
 
-/* NAV: single badge logo (replaces two-image composite) */
+        /* ══ TAB BAR ══ */
+        .tab-bar {  display: flex;  background: var(--white);  border-radius: 12px 12px 0 0;  overflow: hidden;  box-shadow: 0 -1px 0 rgba(0,0,0,.06) inset;}
+        .tab-btn {  flex: 1;  padding: 1.25rem 1rem;  border: none;  background: var(--white);  color: #999;  font-weight: 700;  font-size: .85rem;  cursor: pointer;  font-family: 'Inter', sans-serif;  text-transform: uppercase;  border-bottom: 3px solid transparent;  transition: all .2s;}
+        .tab-btn.active {  color: var(--iu-crimson);  background: var(--offwhite);  border-bottom-color: var(--iu-crimson);}
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; animation: fadeUp .3s ease both; }
 
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* space between badge and ASAL 39 text */
-  text-decoration: none;
-}
+        /* ══ DAY CONTAINER ══ */
+        .day-wrap {  background: var(--offwhite);  border-radius: 0 0 12px 12px;  padding: 2.5rem 2.5rem 4rem;}
 
-/* badge container: rectangular-curly shape, matches hero
-   adjust width/height/padding to change prominence */
-.nav-logo-badge {
-  width: 120px;               /* Increased from 72px */
-  height: 60px;               /* Increased from 44px */
-  background: #ffffff;
-  border-radius: 8px;         /* Slightly sharper corners look more professional for academic logos */
-  padding: 4px;               /* Minimal padding so the logo is as large as possible */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  border: 1px solid rgba(0,0,0,0.08);
-  
-  /* CRITICAL FIXES */
-  flex: 0 0 auto;             /* Prevents the navbar from "squishing" the badge */
-  overflow: hidden;
-  margin-right: 15px;         /* Adds space between badge and "ASAL 39" text */
-}
+        /* ══ SCHED PILLS ══ */
+        .sched-pill {  display: flex;  align-items: center;  gap: 1rem;  padding: .8rem 1.75rem;  border-radius: 8px;  margin-bottom: .6rem;}
+        .pill-registration, .pill-break, .pill-lunch { background: rgba(0,0,0,.04); }
+        .pill-opening, .pill-closing { background: rgba(153,0,0,.06); }
+        .pill-time { font-family: 'Space Mono', monospace; font-size: .7rem; color: #888; min-width: 125px; }
+        .pill-label { font-size: .9rem; color: #444; font-weight: 700; }
 
-/* image inside badge: keep full lockup visible */
-.nav-logo-badge img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-}
+        /* ══ SESSION BLOCK ══ */
+        .session-block {  background: var(--white);  border-radius: 12px;  overflow: hidden;  box-shadow: 0 1px 12px rgba(0,0,0,.04);  margin-bottom: .6rem;}
+        .session-header {  display: flex;  align-items: center;  gap: 1rem;  padding: 1.1rem 1.75rem;  border-bottom: 1px solid rgba(0,0,0,.06);}
+        .session-header.theme-syntax { border-left: 6px solid #6366f1; }
+        .session-header.theme-complingua { border-left: 6px solid #0891b2; }
+        .session-header.theme-phonetics { border-left: 6px solid #059669; }
+        .session-header.theme-l2 { border-left: 6px solid #d97706; }
+        .session-header.theme-egyptian { border-left: 6px solid #db2777; }
+        .session-header.theme-morphology { border-left: 6px solid #b45309; }
+        .session-header.theme-grammar { border-left: 6px solid #0284c7; }
+        
+        .session-theme-badge { font-family: 'Space Mono', monospace; font-size: .6rem; text-transform: uppercase; padding: .3rem .8rem; border-radius: 4px; font-weight: 700; }
+        .theme-syntax .session-theme-badge { background: #eef2ff; color: #4338ca; }
+        .theme-complingua .session-theme-badge { background: #e0f7fb; color: #0369a1; }
+        .theme-phonetics   .session-theme-badge { background: #ecfdf5; color: #047857; }
+        .theme-l2          .session-theme-badge { background: #fffbeb; color: #b45309; }
+        .theme-egyptian    .session-theme-badge { background: #fdf2f8; color: #be185d; }
+        .theme-morphology  .session-theme-badge { background: #fef3c7; color: #92400e; }
+        .theme-grammar     .session-theme-badge { background: #e0f2fe; color: #075985; }
 
-/* keep the site title styling you already have; tweak if needed */
-.nav-logo-text {
-  font-family: 'Playfair Display', serif;
-  color: var(--white);
-  font-size: 1.6rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
+        /* ══ TALK ROW & ABSTRACTS ══ */
+        .talk-row {  display: grid;  grid-template-columns: 110px 1fr;  border-top: 1px solid rgba(0,0,0,.04);  padding: 1.25rem 1.75rem;  gap: 0;  transition: background .15s;}
+        .talk-time {  font-family: 'Space Mono', monospace;  font-size: .65rem;  color: #b0a080;  font-weight: 700;  border-right: 1px solid rgba(0,0,0,.08);  padding-right: 1.5rem;  margin-right: 1.75rem;}
+        .talk-title { font-size: .95rem; color: #222; line-height: 1.4; font-weight: 600; }
+        .talk-author { font-size: .85rem; color: #2e6da4; font-weight: 700; margin-top: .3rem; display: block; }
+        
+        /* Abstract Toggle Mechanism */
+        .abstract-toggle {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            padding: 4px 0;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+        .abstract-toggle:hover { color: var(--iu-crimson); }
+        .abstract-toggle i { font-style: normal; transition: transform 0.3s; }
+        .abstract-toggle.active i { transform: rotate(180deg); }
 
-/* reduce repaint flash risk: avoid heavy backdrop-filter conflicts */
-nav {
-  /* keep your rgba background but reduce blur load if you still see flashes */
-  background: rgba(13,27,42,0.97);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
+        .abstract-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease;
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.6;
+            background: #fcfcfc;
+            border-radius: 6px;
+        }
+        .abstract-content.open {
+            max-height: 2000px; 
+            opacity: 1;
+            padding: 1rem 0;
+            transition: max-height 0.6s ease-in-out, opacity 0.5s ease;
+        }
+        .abstract-inner {
+            border-left: 2px solid #eee;
+            padding-left: 1.25rem;
+            font-style: italic;
+        }
 
-/* responsive tuning */
-@media (max-width: 980px) {
-  .nav-logo-badge { width: 56px; height: 36px; padding: 5px; border-radius: 10px; }
-  .nav-logo-text  { font-size: 1.2rem; }
-}
-@media (max-width: 480px) {
-  .nav-logo-badge { width: 48px; height: 30px; padding: 4px; }
-  .nav-logo-text  { display: none; } /* conserve space on smallest devices */
-}
-.nav-logo-text::after {
-  content: '';
-  position: absolute;
-  bottom: -3px; left: 0;
-  width: 35px; height: 2px;
-  background: var(--gold);
-}
+        /* ══ KEYNOTE BLOCK ══ */
+        .keynote-block {  background: linear-gradient(135deg, #0d1b2a 0%, #1a2a3a 100%);  border-radius: 12px;  padding: 2rem 2.25rem;  display: flex;  align-items: center;  gap: 2.5rem;  margin-bottom: .6rem;  box-shadow: 0 4px 20px rgba(13,27,42,.25);  border-left: 6px solid var(--iu-crimson);}
+        .keynote-speaker { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); }
+        .keynote-talk-title { font-size: .95rem; color: rgba(255,255,255,.8); font-style: italic; margin-top: .75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.75rem; }
 
-.nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
-.nav-links a {
-  color: rgba(255,255,255,0.82);
-  text-decoration: none;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.4rem 0.75rem;
-  position: relative;
-  transition: color 0.2s;
-  font-weight: 500;
-}
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0.75rem; right: 0.75rem;
-  height: 2px;
-  background: var(--gold);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-.nav-links a:hover, .nav-links a.active { color: var(--white); }
-.nav-links a.active::after { transform: scaleX(1); }
+        /* ══ POSTER BLOCK ══ */
+        .poster-block { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 12px rgba(0,0,0,.04); margin-bottom: .6rem; border-left: 6px solid #2e8a5f; }
+        .poster-header { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.75rem; background: #f4fbf8; }
+        .poster-row { padding: 1.25rem 1.75rem; border-top: 1px solid rgba(0,0,0,0.045); }
+        .poster-row:hover { background: rgba(0,0,0,0.01); }
+        .poster-row-title { font-size: .92rem; color: #333; font-weight: 600; line-height: 1.4; }
+        .poster-row-author { font-size: .82rem; color: #2e6da4; font-weight: 700; margin-top: 4px; display: block; }
 
-.nav-register {
-  background: var(--iu-crimson) !important;
-  color: var(--white) !important;
-  border-radius: 50px !important;
-  padding: 0.55rem 1.5rem !important;
-  font-weight: 600 !important;
-  margin-left: 0.5rem;
-  transition: box-shadow 0.25s, transform 0.2s !important;
-}
+        /* ══ SOCIAL BLOCK ══ */
+        .social-block { background: linear-gradient(135deg, #fdf7e8, #fef9ee); border-radius: 12px; padding: 1.5rem 2rem; display: flex; align-items: center; border-left: 6px solid var(--gold); margin-bottom: .6rem;}
+        .social-time { margin-left: auto; font-family: 'Space Mono', monospace; font-size: .7rem; color: #c0a050; font-weight: 700; }
 
-.hamburger {
-  display: none; flex-direction: column; gap: 5px;
-  cursor: pointer; padding: 4px; background: none; border: none;
-  position: relative; z-index: 1001;
-}
-.hamburger span { display: block; width: 22px; height: 2px; background: var(--white); transition: all 0.3s; border-radius: 2px; }
+        /* ══ FOOTER ══ */
+        footer { background: #050b12; color: rgba(255,255,255,0.4); text-align: center; padding: 4.5rem 2rem; }
+        footer a { color: var(--gold); text-decoration: none; }
 
-.mobile-menu {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(13,27,42,0.80);
-  z-index: 998;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.15rem;
-  padding: 2rem;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-.mobile-menu::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 20%, rgba(201,168,76,0.10), transparent 55%);
-  pointer-events: none;
-}
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-  position: relative;
-  z-index: 1;
-  color: rgba(255,255,255,0.88);
-  text-decoration: none;
-  font-size: 1.1rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.55rem 1rem;
-  transition: color 0.2s, letter-spacing 0.2s, transform 0.2s;
-  font-weight: 500;
-  text-align: center;
-}
-.mobile-menu a:hover,
-.mobile-menu a.active {
-  color: var(--gold);
-  letter-spacing: 0.12em;
-  transform: translateY(-1px);
-}
-.mobile-menu .nav-register {
-  z-index: 1;
-  background: var(--iu-crimson) !important;
-  color: var(--white) !important;
-  border-radius: 999px !important;
-  text-align: center;
-  margin-top: 0.65rem;
-  padding: 0.95rem 2.2rem !important;
-  font-size: 1rem !important;
-  letter-spacing: 0.06em;
-  min-width: min(84vw, 320px);
-}
-body.menu-open { overflow: hidden; }
-.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* ══ PAGE HERO ══ */
-.page-hero {
-  background: var(--navy);
-  padding: 200px 2rem 100px;
-  text-align: center;
-  position: relative;
-}
-.page-hero-inner { position: relative; z-index: 2; animation: fadeUp 1s ease; }
-.eyebrow {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
-  display: block;
-}
-.page-hero h1 {
-  font-family: 'Playfair Display', serif;
-  color: var(--white);
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 900;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-}
-.page-hero p {
-  color: rgba(255,255,255,0.7);
-  font-size: 1.1rem;
-  letter-spacing: 0.05em;
-}
-
-/* ══════════════════════════════════════
-   PROGRAM / TAB BAR
-══════════════════════════════════════ */
-.tab-bar {
-  display: flex;
-  gap: 0;
-  margin-bottom: 0;
-  background: var(--white);
-  border-radius: 12px 12px 0 0;
-  overflow: hidden;
-  box-shadow: 0 -1px 0 rgba(0,0,0,.06) inset;
-}
-.tab-btn {
-  flex: 1;
-  padding: 1.25rem 1rem;
-  border: none;
-  background: var(--white);
-  color: #999;
-  font-weight: 700;
-  font-size: .85rem;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  border-bottom: 3px solid transparent;
-  transition: all .2s;
-  white-space: nowrap;
-  position: relative;
-}
-.tab-btn:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: 0; top: 25%; bottom: 25%;
-  width: 1px;
-  background: rgba(0,0,0,.08);
-}
-.tab-btn:hover { color: var(--iu-crimson); background: #fdf6f6; }
-.tab-btn.active {
-  color: var(--iu-crimson);
-  background: var(--offwhite);
-  border-bottom-color: var(--iu-crimson);
-}
-.tab-pane { display: none; }
-.tab-pane.active { display: block; animation: fadeUp .3s ease both; }
-
-/* ══ DAY CONTAINER ══ */
-.day-wrap {
-  background: var(--offwhite);
-  border-radius: 0 0 12px 12px;
-  padding: 2.5rem 2.5rem 4rem;
-}
-
-/* ══ SESSION ITEMS ══ */
-.sched-pill {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: .8rem 1.75rem;
-  border-radius: 8px;
-  margin-bottom: .6rem;
-}
-.sched-pill.pill-break      { background: rgba(0,0,0,.04); }
-.sched-pill.pill-registration { background: rgba(0,0,0,.04); }
-.sched-pill.pill-opening    { background: rgba(153,0,0,.06); }
-.sched-pill.pill-closing    { background: rgba(153,0,0,.06); }
-.sched-pill.pill-lunch      { background: rgba(0,0,0,.04); }
-.sched-pill.pill-reception  { background: rgba(201,168,76,.1); }
-.sched-pill.pill-dinner     { background: rgba(201,168,76,.1); }
-
-.pill-time {
-  font-family: 'Space Mono', monospace;
-  font-size: .7rem;
-  color: #888;
-  white-space: nowrap;
-  min-width: 125px;
-  font-weight: 500;
-}
-.pill-label { font-size: .9rem; color: #444; font-weight: 700; }
-.pill-location { margin-left: auto; font-size: .75rem; color: #999; white-space: nowrap; }
-
-/* ══ SESSION BLOCK ══ */
-.session-block {
-  background: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 12px rgba(0,0,0,.04);
-  margin-bottom: .6rem;
-}
-
-.session-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.1rem 1.75rem;
-  border-bottom: 1px solid rgba(0,0,0,.06);
-}
-.session-header.theme-syntax       { border-left: 6px solid #6366f1; }
-.session-header.theme-complingua  { border-left: 6px solid #0891b2; }
-.session-header.theme-phonetics    { border-left: 6px solid #059669; }
-.session-header.theme-l2           { border-left: 6px solid #d97706; }
-.session-header.theme-egyptian     { border-left: 6px solid #db2777; }
-.session-header.theme-discourse    { border-left: 6px solid #7c3aed; }
-.session-header.theme-morphology   { border-left: 6px solid #b45309; }
-.session-header.theme-grammar      { border-left: 6px solid #0284c7; }
-
-.session-theme-badge {
-  font-family: 'Space Mono', monospace;
-  font-size: .6rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: .3rem .8rem;
-  border-radius: 4px;
-}
-.theme-syntax      .session-theme-badge { background: #eef2ff; color: #4338ca; }
-.theme-complingua  .session-theme-badge { background: #e0f7fb; color: #0369a1; }
-.theme-phonetics   .session-theme-badge { background: #ecfdf5; color: #047857; }
-.theme-l2          .session-theme-badge { background: #fffbeb; color: #b45309; }
-.theme-egyptian    .session-theme-badge { background: #fdf2f8; color: #be185d; }
-.theme-discourse   .session-theme-badge { background: #f5f3ff; color: #6d28d9; }
-.theme-morphology  .session-theme-badge { background: #fef3c7; color: #92400e; }
-.theme-grammar     .session-theme-badge { background: #e0f2fe; color: #075985; }
-
-.session-header-title { font-weight: 800; font-size: 1rem; color: var(--charcoal); flex: 1; }
-.session-header-time  { font-family: 'Space Mono', monospace; font-size: .65rem; color: #aaa; }
-
-/* ══ INDIVIDUAL TALK ROW ══ */
-.talk-row {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  border-top: 1px solid rgba(0,0,0,.04);
-  padding: 1.25rem 1.75rem;
-  gap: 0;
-  transition: background .15s;
-}
-.talk-row:hover { background: rgba(0,0,0,.015); }
-
-.talk-time {
-  font-family: 'Space Mono', monospace;
-  font-size: .65rem;
-  color: #b0a080;
-  font-weight: 700;
-  border-right: 1px solid rgba(0,0,0,.08);
-  padding-right: 1.5rem;
-  margin-right: 1.75rem;
-}
-.talk-title { font-size: .95rem; color: #222; line-height: 1.6; font-weight: 500; }
-.talk-author { font-size: .85rem; color: #2e6da4; font-weight: 700; margin-top: .5rem; }
-
-/* ══ KEYNOTE BLOCK ══ */
-.keynote-block {
-  background: linear-gradient(135deg, #0d1b2a 0%, #1a2a3a 100%);
-  border-radius: 12px;
-  padding: 2rem 2.25rem;
-  display: flex;
-  align-items: center;
-  gap: 2.5rem;
-  margin-bottom: .6rem;
-  box-shadow: 0 4px 20px rgba(13,27,42,.25);
-  border-left: 6px solid var(--iu-crimson);
-}
-.keynote-kicker { font-family: 'Space Mono', monospace; font-size: .7rem; color: var(--gold); text-transform: uppercase; letter-spacing: .25em; display: block; margin-bottom: .5rem; }
-.keynote-speaker { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); }
-.keynote-affil { font-size: .8rem; color: rgba(255,255,255,.45); margin-top: .2rem; }
-.keynote-talk-title { font-size: .95rem; color: rgba(255,255,255,.8); font-style: italic; margin-top: .75rem; border-top: 1px solid rgba(255,255,255,.1); padding-top: .75rem; line-height: 1.6; }
-.keynote-block-time { text-align: right; flex-shrink: 0; }
-.keynote-block-time .k-time { font-family: 'Space Mono', monospace; font-size: .75rem; color: var(--gold); display: block; font-weight: 700; }
-.keynote-block-time .k-loc { font-size: .7rem; color: rgba(255,255,255,.3); display: block; margin-top: .4rem; }
-
-/* ══ POSTER BLOCK ══ */
-.poster-block {
-  background: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 12px rgba(0,0,0,.04);
-  margin-bottom: .6rem;
-  border-left: 6px solid #2e8a5f;
-}
-.poster-header { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.75rem; background: #f4fbf8; }
-.poster-badge { font-family: 'Space Mono', monospace; font-size: .65rem; text-transform: uppercase; font-weight: 700; padding: .3rem .8rem; border-radius: 4px; background: #dcf5ea; color: #1a6b42; letter-spacing: 0.1em; }
-.poster-title { font-weight: 800; font-size: 1rem; color: var(--charcoal); flex: 1; }
-.poster-row { display: grid; grid-template-columns: 1fr auto; padding: 1.1rem 1.75rem; border-top: 1px solid rgba(0,0,0,.045); gap: 1.5rem; }
-.poster-row:hover { background: rgba(0,0,0,.015); }
-.poster-row-title { font-size: .92rem; color: #333; line-height: 1.55; font-weight: 500; }
-.poster-row-author { font-size: .82rem; color: #2e6da4; font-weight: 700; white-space: nowrap; text-align: right; }
-
-/* ══ SOCIAL BLOCK ══ */
-.social-block {
-  background: linear-gradient(135deg, #fdf7e8, #fef9ee);
-  border-radius: 12px;
-  padding: 1.5rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1.75rem;
-  margin-bottom: .6rem;
-  border-left: 6px solid var(--gold);
-}
-.social-icon { font-size: 2rem; }
-.social-label { font-weight: 800; font-size: 1rem; color: #6b4c00; }
-.social-detail { font-size: .85rem; color: #a07820; margin-top: .2rem; }
-.social-time { font-family: 'Space Mono', monospace; font-size: .7rem; color: #c0a050; margin-left: auto; font-weight: 700; }
-
-/* ══ FOOTER ══ */
-footer {
-  background: #050b12;
-  color: rgba(255,255,255,0.4);
-  text-align: center;
-  padding: 4.5rem 2rem;
-  border-top: 1px solid rgba(201,168,76,0.08);
-  font-size: 0.85rem;
-}
-footer strong { color: rgba(255,255,255,0.8); display: block; margin-bottom: 0.8rem; font-size: 1.1rem; }
-footer a { color: var(--gold); text-decoration: none; }
-
-/* ══ REVEAL & UTILITIES ══ */
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.visible { opacity: 1; transform: none; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-
-@media (max-width: 1300px) { .nav-links { display: none; } .hamburger { display: flex; } }
-@media (max-width: 900px) {
-  .logo-text-img, .nav-logo-sep { display: none; }
-  .nav-logo-text { font-size: 1.3rem; }
-  .keynote-block { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
-  .keynote-block-time { text-align: left; }
-  .talk-row { grid-template-columns: 1fr; }
-  .talk-time { border-right: none; padding-right: 0; margin-right: 0; margin-bottom: .75rem; padding-bottom: .75rem; border-bottom: 1px solid rgba(0,0,0,.05); }
-  .poster-row { grid-template-columns: 1fr; }
-  .poster-row-author { text-align: left; }
-  .day-wrap { padding: 1.5rem 1.5rem 3rem; }
-}
-</style>
+        /* ══ UTILS ══ */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        @media (max-width: 1300px) { .nav-links { display: none; } .hamburger { display: flex; } }
+        @media (max-width: 900px) { 
+            .talk-row { grid-template-columns: 1fr; }
+            .talk-time { border-right: none; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+            .day-wrap { padding: 1.5rem; }
+            .keynote-block { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ══ NAVBAR ══ -->
 <nav>
-<!-- NEW: single badge logo for navbar -->
-<a href="index.html" class="nav-logo" aria-label="ASAL 39 home">
-  <div class="nav-logo-badge" aria-hidden="true">
-    <img src="MELC-76.png" alt="Indiana University logo">
-  </div>
-  <span class="nav-logo-text">ASAL 39</span>
-</a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="keynotes.html">Keynotes</a></li>
-    <li><a href="program.html" class="active">Program</a></li>
-    <li><a href="practical.html">Registration Info</a></li>
-    <li><a href="committee.html">Committee</a></li>
-    <li><a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d" class="nav-register">Register Now</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+    <a href="index.html" class="nav-logo">
+        <div class="nav-logo-badge"><img src="MELC-76.png" alt="IU logo"></div>
+        <span class="nav-logo-text">ASAL 39</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="keynotes.html">Keynotes</a></li>
+        <li><a href="program.html" class="active">Program</a></li>
+        <li><a href="practical.html">Info</a></li>
+        <li><a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=..." class="nav-register">Register Now</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="keynotes.html">Keynotes</a>
-  <a href="program.html">Program</a>
-  <a href="https://indianauniv.ungerboeck.com/prod/emc00/register.aspx?aat=527a706245534d5349774b4742774c7a6d687970716f5a6858694f415a6a4337634e57444c5867464c45303d" target="_blank" class="nav-register">Register Now</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="program.html">Program</a>
+    <a href="#" class="nav-register">Register Now</a>
 </div>
 
-<!-- ══ PAGE HERO ══ -->
 <div class="page-hero">
-  <div class="page-hero-inner">
-    <span class="eyebrow">Conference Program</span>
-    <h1>Three Days of<br>Arabic Linguistics</h1>
-    <p>March 27–29, 2026 · Indiana University Bloomington · Radio-TV Building, Room 251</p>
-  </div>
+    <div class="page-hero-inner">
+        <span class="eyebrow">Conference Program</span>
+        <h1>Three Days of<br>Arabic Linguistics</h1>
+        <p>March 27–29, 2026 · Indiana University Bloomington · Radio-TV Building, Room 251</p>
+    </div>
 </div>
 
-<!-- ══ PROGRAM BODY ══ -->
 <section style="background:#edeae4;">
-  <div style="max-width:1000px; margin:0 auto; padding:4rem 1.5rem 6rem;">
+    <div style="max-width:1000px; margin:0 auto; padding:4rem 1.5rem 6rem;">
+        
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="friday">Friday, Mar 27</button>
+            <button class="tab-btn" data-tab="saturday">Saturday, Mar 28</button>
+            <button class="tab-btn" data-tab="sunday">Sunday, Mar 29</button>
+        </div>
 
-    <!-- Tabs -->
-    <div class="tab-bar">
-      <button class="tab-btn active" data-tab="friday">Friday, Mar 27</button>
-      <button class="tab-btn"        data-tab="saturday">Saturday, Mar 28</button>
-      <button class="tab-btn"        data-tab="sunday">Sunday, Mar 29</button>
+        <!-- ══ FRIDAY, MARCH 27 ══ -->
+        <div id="tab-friday" class="tab-pane active">
+            <div class="day-wrap">
+                <div class="sched-pill pill-registration">
+                    <span class="pill-time">8:00–8:40 AM</span>
+                    <span class="pill-label">☕ Registration and Coffee</span>
+                </div>
+                <div class="sched-pill pill-opening">
+                    <span class="pill-time">8:40–8:45 AM</span>
+                    <span class="pill-label">🎙️ Opening Remarks</span>
+                </div>
+
+                <!-- Syntax Session -->
+                <div class="session-block">
+                    <div class="session-header theme-syntax">
+                        <span class="session-theme-badge">Syntax</span>
+                        <span style="flex:1; font-weight:800;">Syntax Session</span>
+                        <span style="font-size:.65rem; color:#aaa;">8:45–10:45 AM</span>
+                    </div>
+
+                    <div class="talk-row">
+                        <div class="talk-time">8:45–9:15</div>
+                        <div class="talk-body">
+                            <div class="talk-title">The syntax of ditransitives in Najdi Arabic.</div>
+                            <span class="talk-author">Reem Alshammeri</span>
+                            <button class="abstract-toggle">View Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">introduction: This paper investigates the syntactic structure of ditransitive constructions in Najdi Arabic (NA),focusing on how recipients and themes are expressed across different verb classes. The central research question iswhether the two surface patterns of ditransitives: Double Object Constructions (DOCs) and Prepositional DativeConstructions (PDCs) in NA are derivationally related, as claimed by Larson (1988) and Baker (1996) or reflectdistinct underlying structures as advocated by Marantz (1993), Pesetsky (1995), Harley (2002), Hallman (2015,2018), Al-Janabi (2019), Hallman and Al-Balushi (2022), among others. I propose that the DOC and PDC in NA arebase-generated independently, with the DOC represented by (1) and (3) and the PDC by (2) and (4), and that verbsin NA fall into two lexical classes depending on which ditransitive strategy they permit. This distinction is not onlystructurally grounded but also semantically and morphosyntactically significant, with broader implications fortypological debates on argument structure. NA exhibits two core strategies for ditransitive constructions. Verbs like‘give’ license DOCs, where the recipient precedes the theme, as in (3) with applicative structure, while verbs like‘put’ require PDCs involving a prepositional goal, as in (4).DOC: (1) ʔaʕaṭ-it Faris ʔəl-ʒawal PDC: (2) ḥaṭṭēt ʔəl-ʒawal ʕal-tʔawlahgave.1SG Faris the-phone put.1SG the-phone on-table‘I gave Faris the phone.’ ‘I put the phone on the table.’DOC structure (3) PDC structure (4)Analysis: I argue that DOCs and PDCs in NA are derivationally unrelated. For DOC verbs (Class 1: give, award),the underlying order is DPIO–DPDO (DP-Indirect Object—DP Direct Object), and the attested surface forms: DPIO–DPDO, DPDO–DPIO, li-DPIO–DPDO, and DPDO–li-DPIO—all derive from DPIO–DPDO base, with li- analyzed as adative case marker. Within Class 1, a subclass of send-type verbs (send, return, buy) expresses transfer of possessionbut obligatorily requires li- before the recipient, while remaining DOC-like in structure. By contrast, PDC verbs(Class 2: put, take) select a true DP–PP base, where the surface PP–DP order derives from PDC syntax and denoteslocation. Animacy constraints of the Indirect Object also play an essential role in DOCs but not in PDCs.Both pronominalizations in (7–8) are grammatical; thus, li- in (8) is semantically vacuous (Hallman, 2024). Usinganaphor-, pronoun-, and quantifier-binding diagnostics, I show that li-DPIO–DPDO is a morphological variant of theDOC, consistent with Oehrle’s (1976) Generalization and its strong transfer-of-possession interpretation.(7) Sarah ʕaṭ-it-uhj ʒawal-uhj (DPIO-DPDO) (8) Sarah ʕaṭ-it-l-uhj ʒawal-uhj (li-DPIO-DPDO)Sarah gave-3FS-3MS phone-his Sarah gave-3FS-DAT-3MS phone-his‘Sarah gave him the phone.’ ‘Sarah gave him the phone.’The send-type verb subclass semantically denotes the transfer of possession and syntactically represents a derivedDOC form. Still, it requires li- before the recipient, as shown in (9), but it is ungrammatical without li- as in (10).(9) Sarah ʔrsal-it-l-uh ʔəl-ʒawal (10) *Sarah ʔrsal-it-uh ʔəl-ʒawalSarah send-3FS-to-him the-phone Sarah sent-3FS-him the phone.‘Sarah sent him the phone.’ ‘Sarah sent him the phone.’Although ʔarsal ‘send’ allows only both DPDO–li-DPIO and li-DPIO–DPDO orders, the purpose-clause diagnosticshows that the recipient (Fāris) controls PRO in both cases, as in (11–12). This matches the behavior of give-typeDOCs in NA, where the recipient also controls PRO. Hence, send aligns with a DOC-like, recipient-orientedconfiguration and supports analyzing li- in DPIO as an argumental dative, not a PP adjunct.(11) ʔarsalt risālah li-Fārisi [PROi yigrā-hā] (12) ʔarsalt li-Fārisi risālah [PROi yigrā-hā]sent.1SG letter DAT-Faris [PRO read.3SG.M-it] sent.1SG DAT-Faris letter [PRO read.3SG.M-it]‘I sent a letter to Faris to read.’ ‘I sent a letter to Faris to read.’With class 1 verbs, all derived forms remain DOCs ((li)DPIo–DPDO ⇄ DPDO–(li)DPIo): they express transfer ofpossession, exhibit IO>Theme in binding and scope, and show recipient control in purpose clauses. Li- herefunctions as dative morphology. By contrast, Class2 verbs are genuine PDCs (DP–PP → PP–DP) with PP-internalgoals, lack IO-type binding and PRO control, and only allow theme-passivization. These encode location or path.Conclusion: These findings have broader implications for cross-linguistic theories of argument structure. First, theysupport the existence of distinct, base-generated DOC and PDC constructions, challenging transformationalaccounts that derive one from the other. Second, they demonstrate that verb-specific lexical properties govern thesyntactic realization of arguments, reinforcing a lexicalist perspective on argument licensing. Ultimately, this studyenriches the empirical understanding of Arabic syntax and contributes to ongoing typological and theoretical debateson ditransitives.</div></div>
+                        </div>
+                    </div>
+
+                    <div class="talk-row">
+                        <div class="talk-time">9:15–9:45</div>
+                        <div class="talk-body">
+                            <div class="talk-title">The Syntax of Exceptional Exceptive Constructions in Tunisian Arabic (TA)</div>
+                            <span class="talk-author">Mohamed Jlassi</span>
+                            <button class="abstract-toggle">View Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">n TA, exceptives are expressed both through the standard marker ʔilla—as in Modern Standard Arabic(MSA)—and, distinctively, via the copula verb ka:n, as shown in (1) and (2).(1) a. ʔilla ʕli: ħḍar b. ħḍar-u: kull-hum ʔilla ʕli:only Ali attend.PRF.3SM attend-PRF.3P all-them except Ali‘Only Ali attended.’ ‘Everybody attended except / but Ali.’(2) a. ka:n ʕli: ħḍar b. kull-hum ħḍar-u: ka:n ʕlionly Ali attend.PRF.3SM all-them attend-PRF.3P except Ali‘Only Ali attended.’ ‘Everybody attended except / but Ali.’The ka:n construction in TA complicates von Fintel and Iatridou’s (2007) typology, which divides languagesinto two types: those using exclusive focus (e.g., Finnish, Spanish), and those using exceptive marker +quantifier combinations (e.g., MSA, Greek). TA exhibits traits of both. For instance, type one languagesallow exceptives only in affirmative contexts as in (2), while type two permit them in negative ones—TApermits both, as shown in (3).(3) a. ka:n ʕli: ma:-ħḍar-ʃ b.ma: ħḍar ka:n ʕli:only Ali not-attend.PRF.3SM-not NEG attend.PRF.3SM except Ali‘Only Ali did not attend.’ ‘Only Ali did attend.’c. ma: ħḍar ħatta ħadd ka:n ʕli: d. ma:-ħaḍar-u- ʃ kull-hum ka:n ʕli:NEG attend.PRF.3SM no one except Ali NEG-attend.PRF-3PM-NEG all-them except Ali‘No one attended except / but Ali.’ ‘Not everybody attended except / but Ali.’Crosslinguistically, exception constructions remain debated—especially since semantic analyses dominate,often reducing exceptions to restriction readings (inclusion/exclusion) (von Fintel 1993; Hoeksema 1995;Moltmann 1995; Vostrikova 2019). The distinction between free and connected exceptives (Hoeksema1987) and their categorial status (e.g., conjunctions, prepositions, adverbs, postpositions) remainsunresolved. AlBataineh (2021), building on this, proposes a functional head analysis, treating ʔilla as thehead of an Exceptive Phrase (ExP). While Arabic studies focus on ʔilla in MSA (AlBataineh 2021; Soltan2016; Saeed 2023), dialectal data—especially TA—remains understudied. This paper addresses that gap byanalyzing ka:n-marked exceptives in TA. I show that ka:n, despite its verbal origin and morphologicalinvariance, is a grammaticalized form that yields two distinct readings: (i) restrictive exclusive focus (2a,3a–b), and (ii) restrictive subtraction (2b, 3c–d). These challenge existing categorizations and align ka:nmore closely with a distinct functional head. Adopting and refining AlBataineh’s ExP analysis, I argue thatTA’s ka:n exceptive constructions derive both readings from a base-generated big DP structure, where ka:nestablishes an internal exception relation R with its NP complement. This follows the relational architectureproposed by Hornstein et al. (1994), as adapted in Uriagereka (1995), and Belletti (2005) for doublingconstructions. In restrictive focus readings, ka:n values its restriction features with the excepted NP, thensequentially values exception in Ex and exclusive focus in C, as in (4a). In the subtractive reading, domainsubtraction occurs entirely within the big DP: a universal quantifier occupies [Spec, DP], ka:n raises to Exafter valuing its features against the excepted NP, which remains in situ (4b).(4) a. [CP C ka:n [TP Ali T ħḍar [ExP Ex ka:n [VP V [DP D [exP ex ka:n NP Ali ]]]]]]b. [CP C [TP kullhum T ħḍaru: [ExP Ex ka:n [VP V [DP kullhum D [exP ex ka:n NP Ali ]]]]]]This study contributes to the syntax of exception by offering a novel analysis of TA’s ka:n, situating it as agrammaticalized morphosyntactic hybrid that resists traditional categorial labels and invites broaderreconsideration of exception typologies in Semitic syntax.</div></div>
+                        </div>
+                    </div>
+
+                    <div class="talk-row">
+                        <div class="talk-time">9:45–10:15</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Anybody Can, But Him & You Cannot: A New PCC Type in Malki Arabic and Its Implications</div>
+                            <span class="talk-author">Fahad Almalki</span>
+                            <button class="abstract-toggle">View Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Crosslinguistically, there has been a significant number of analytical studies concerned with the restrictions on the combinations of weak pronominal object clitics in ditransitive constructions based on their person features, captured in the Person Case Constraint (PCC, e.g., Bonet 1991, 1994; Nevins 2007; Deal 2023). One PCC type that has been influential in these studies comes from Classical Arabic where the I(ndirect) and D(irect) O(bject) pronominal clitics must obey the following person hierarchy: 1>2>3, so-called Ultrstrong PCC (Nevins 2007; Fassi-Fehri 1988). Such PCC variety bans pronominal object clitics of the combinations 2>1, 3>1 and 3>2, as shown in (1). This paper provides a new PCC pattern observed in Malki Arabic (a Tihami Arabic dialect spoken in southwestern Saudi Arabia) and examines its implications for the PCC theories. This PCC pattern is unique, compared to the attested PCC patterns, in that it allows almost all combinations of weak object clitics, even the ubiquitously banned 3IO>1DO pronominal clitic cluster. But it specifically bans the combination of a third person IO and a second person DO (*3>2). I call this PCC pattern No Him&You PCC, which is illustrated with the ditransitive verb in (2) from Malki Arabic. In contrast to the Ultrastrong PCC in Classical Arabic (beside other attested PCC types across languages), the object clitic clusters 3>1 and 2>1 are allowed in this PCC pattern. However, the person combination of 3>2 is banned in both PCC varieties. (1) a. Pact ̇a-ni:-ka gave.3SBJ-1DAT-2ACC ‘He gave you to me.’ 1>2 b. *Pact ̇a:-ka-ni: gave.3SBJ.2DAT-1ACC ‘He gave me to you’ *2>1 c. Pact ̇ay-ta-ni:-hi: gave-2SBJ-1DAT-3ACC ‘You gave him to me.’ 1>3 d. *Pact ̇ay-ta-hu:-ni: gave-2SBJ-3DAT-1ACC ‘You gave me to him.’ *3>1 e. Pact ̇ay-tu-ka-hi: gave-1SBJ-2DAT-3ACC ‘I gave him to you’ 2>3 f. *Pact ̇ay-tu-hu:-ka: gave-1SBJ-3DAT-2ACC ‘I gave you to him.’ *3>2 (Nevins 2007; Fassi-Fehri 1988) (2) a. Pact ̇a:-ni:-k gave.3SG.M.SBJ-me-you ‘He gave you to me.’ 1>2 b. Pact ̇a:-ka-ni:(h) gave.3SG.M.SBJ-you.SG.M-me ‘He gave me to you.’ 2>1 c. Pact ̇ay-ta-ni:-h gave-2SG.M.SBJ-you.SG.M-him ‘You gave him to me.’ 1>3 d. Pact ̇ay-ta-h-ni:(h) gave-2SG.M.SBJ-him-me ‘You gave me to him.’ 3>1 e. Pact ̇ay-tu-ka:-h gave-1SG.SBJ-you.SG.M-him ‘I gave him to you.’ 2>3 f. *Pact ̇ay-tu-h-a:k gave-1SG.SBJ-him-you.SG.M ‘I gave you to him.’ *3>2 In the PCC literature, the Ultrastrong PCC in Classical Arabic has been explained in the syntax via Agree (e.g., Nevins 2007; Deal 2023). Nevins offers a PCC analysis based on Multiple Agree (e.g., Hiraiwa 2001, 2005) and a binary feature system in which the third person pronoun has a person feature (contra. Harley and Ritter 2002; Anagnostopoulou 2005; Béjar and Rezac 2003). In this analysis, the PCC is a result of Multiple Agree carrying out an Agree relation between the object clitics in the DO and IO positions and a relativized probe (v) in one domain. The PCC effect in Classical Arabic arises as a consequence of Multiple Agree failure due to an intervening feature, defiant from the feature on the probe and DO goal. In particular, the illicit object clitic combinations are due to intervention effects triggered by the IO goal containing a person feature whose value is different from the probe [+A(uthor), +P(articipant)] and the DO goal: probe[+A,+P] ...(i) *IO[-A,+P] ...DO[+A,+P]. *2>1 (cf. 1b) (ii) *IO[-A,-P] ...DO[+A,+P]. *3>1 (cf. 1c) (iii) *IO[-A,-P] ...DO[-A,+P]. *3>2 (cf. 1f) (iv) IO[+A,+P] ...DO[-A,+P]. 1>2. (cf. 1a). I focus on Nevins’ and not Deal’s analysis because the former utilizes Multiple Agree, a well-established and independently motivated Agree mechanism in the literature. The No Him & You PCC necessitates a modified analysis of Nevins (2007) which cannot account for the No Him&You PCC type in Malki Arabic at face value. The challenge arising from this PCC type is due to the ban of the combination of 3>1 across the other PCC types, but not the case in the No Him&You PCC. Therefore, this paper offers an analysis of the No Him & You PCC type in which (partially following Nevins 2007 but different from his analysis) I assume that the person features [Hearer] and [Participant] comprise the feature system of pronouns in Malki Arabic, an expected variation across languages (Nevins 2007:288). Such feature system furnishes a generalization that the No Him&You PCC effect only arises if none of the person features is licensed on the DO goal, and it does not arise if at least one person feature of the DO goal is licensed by Agree with the relativized probe v specified for [+Hearer, +Participant]. I show that this analysis captures not only the ban on the *3>2 combination but also the other licit pronominal clitic combinations of the No Him&You PCC type. The data from Malki Arabic first contributes to the empirical domain of the PCC literature with a novel, attested PCC pattern. Evidently, the importance of Arabic dialects to theoretical linguistics is demonstrated by Malki Arabic as a case study which brings challenges to the current analyses of the PCC effects. It also contributes to our understanding of the PCC in general and its comparative syntax, underpinning the universal and parametric aspects of the PCC. Moreover, to the best my knowledge, the PCC effects remain underexplored in the spoken Arabic varieties, and the current paper is one of its kind to investigate the PCC patterns in an Arabic dialect, furnishing a path for future research to explore the PCC effects in other spoken Arabic varieties.</div></div>
+                        </div>
+                    </div>
+
+                    <div class="talk-row">
+                        <div class="talk-time">10:15–10:45</div>
+                        <div class="talk-body">
+                            <div class="talk-title">A Narrative Function for the Historical Present in Egyptian Arabic</div>
+                            <span class="talk-author">Michael White</span>
+                            <button class="abstract-toggle">View Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">What motivates the use of the historical present (HP) in narratives? The traditional view holds that the HP—a present tense verb which functions syntactically and semantically as a past tense verb (P)–is used in narratives to make events more vivid to the listener. Wolfson (1979) argues against this view claiming that many vivid narratives are told without the inclusion of the HP. Instead, she introduces data suggesting that the HP in English is used to mark the beginning of new events within a story. Schiffrin (1981) supports this view; however, she finds that only a switch from HP to P marks the occurrence of a new event. In all other cases, use of the HP appears consistent with the traditional view.In Arabic, the HP is similarly described. Studies of Standard (Ḥasan, 1974), Kuwaiti (Tsukanova, 2008), and Negev Bedouin Arabic (Henkin, 1996, 1998) ascribe a dramatizing function to the HP. In Negev Bedouin Arabic, the HP also fulfils a second narrative function of marking the initial boundary of events (Henkin, 1996, 1998). Event structure was also studied in Classical Arabic narratives; however, Marmorstein (2016) found that the HP in Classical Arabic does not introduce a new event, but rather describes the consequence of an immediately preceding P. In contrast to these findings, Holes (2004) emphasizes that the function of HP may simply be to break the redundancy of verb forms in stories. Narratives have also been analyzed in sedentary Palestinian Arabic (Henkin, 1996) and Egyptian Arabic (Brustad, 2000); however, these studies did not investigate the narrative function of HP as it was only observed in background clauses.For Egyptian Arabic, understanding of the HP has recently expanded due to the availability of larger Egyptian-Arabic narrative corpora whose data show use of the HP in narrative foreground clauses. As these foreground HP have yet to be analyzed, this study examines their use to determine whether they fulfill a narrative function similar to those found in other Arabic dialects or whether they simply break up the redundancy of P. To do so, the transcripts of 76 oral narratives, given by speakers residing in eight Egyptian provinces, were studied. Relying on the definitions of foregrounding established by Dry (1983) and Hopper (1979), foreground HP were identified and categorized according to whether use is consistent with previous research on event structure (van Ess-Dykema, 1984), dramatization (Ritz & Engel, 2008), consequential relation (Marmorstein, 2016), or textual segmentation (Carruthers, 2005).Results of the study suggest that inclusion of the HP is motivated by event structure, as all 20 of the foregrounded HP in the corpus introduce a new event regardless of preceding tense. However, an analysis of the lexical aspect of these verbs reveals that dramatization may also be a factor. Of the HP, 16 are either accomplishment or activity verbs, two classes which have the feature [+durative] which allows the audience to feel as if they are witnessing the unfolding of events. This data suggests that although the HP introduces new events into the narrative, it also functions to increase the drama and suspense of the climax. This study provides evidence of the systematic use of the HP in the foreground of Egyptian narratives, refuting claims that its inclusion is due to a lapse in speaker concentration. Furthermore, these findings suggest that use of the HP to mark event-initial actions is not confined to Negev Bedouin Arabic, motivating future analyses of the HP in the many dialects whose narratives have yet to be studied.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-break">
+                    <span class="pill-time">10:45–11:00 AM</span>
+                    <span class="pill-label">☕ Coffee Break</span>
+                </div>
+
+                <!-- Keynote I -->
+                <div class="keynote-block">
+                    <div style="flex:1;">
+                        <span style="color:var(--gold); font-size:.7rem; letter-spacing:.2rem; text-transform:uppercase;">Keynote I</span>
+                        <div class="keynote-speaker">Usama Soltan</div>
+                        <div style="color:rgba(255,255,255,0.5); font-size:.8rem;">Middlebury College, United States</div>
+                        <div class="keynote-talk-title">On the Morphosyntax of Adnominal Demonstratives in Egyptian Arabic</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="color:var(--gold); font-family:'Space Mono'; font-size:.75rem;">11:00 AM – 12:00 PM</span>
+                        <span style="display:block; color:rgba(255,255,255,0.3); font-size:0.7rem; margin-top:4px;">📍 Radio-TV 251</span>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-lunch">
+                    <span class="pill-time">12:00–1:00 PM</span>
+                    <span class="pill-label">🍽️ Lunch Break</span>
+                </div>
+
+                <!-- Poster Session -->
+                <div class="poster-block">
+                    <div class="poster-header">
+                        <span class="poster-badge">Poster Session</span>
+                        <span style="font-weight:800; margin-left:1rem;">Friday Poster Session</span>
+                        <span style="margin-left:auto; font-size:.65rem; color:#888; text-align:right;">1:00–2:15 PM<br>📍 Global Studies Hallway</span>
+                    </div>
+                    
+                    <div class="poster-row">
+                        <div class="poster-row-title">Online Misogyny in Saudi Arabia: A Linguistic Analysis of X Discourse</div>
+                        <span class="poster-row-author">Arwa Alquayb</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">This study examines how misogynistic discourse is linguistically and culturally constructedon X (formerly Twitter) in the Saudi context. Although progress has been made in detectingmisogyny on various online platforms; there is still a significant gap in addressing these issues innon-Western contexts, particularly in the Arabic-speaking world. As far as existing literatureindicates, no research has yet examined how misogynistic language appears implicitly in SaudiArabia, where cultural norms and religious beliefs can shape this discourse in distinctive ways.Therefore, this study aims to bridge that gap by focusing on how misogynistic language againstSaudi women operates on social media platforms like X.Drawing on critical discourse analysis (CDA), the research investigates how language;through syntax, figurative devices, and cultural references; reinforces dominant gender ideologies.It addresses two primary questions: (1) What are the linguistic features that characterizemisogynistic discourse against Saudi women on X, including the use of figurative language andsyntactic structures that contribute to dehumanization? and (2) How do cultural norms andreligious beliefs shape this discourse? A dataset of 11,944 Saudi Arabic posts was collected usinga mixed-methods approach combining automated scraping and geolinguistic filtering. Posts wereinitially selected based on a culturally grounded lexicon of misogynistic terms and expressions.Two trained native Arabic-speaking raters assessed all tweets on a 5-point Likert scale for degreesof misogyny, and a third rater reviewed 25% of the dataset to ensure inter-rater reliability.The analysis reveals that misogyny is expressed through a spectrum of linguistic strategies.Figurative language, such as metaphors portraying women as instinct-driven creatures,commodities, or threats, was frequently used to naturalize gendered hierarchies. Euphemismssoftened the expression of oppressive ideas, framing control and obedience as moral virtues.Syntactic patterns, such as the frequent use of copular/adjectival predicates, imperatives, andgeneralized plural noun phrases, reinforced discourses of control, hierarchy, and uniformity. Postsalso weaponized religious discourse, such as references to women’s “deficiency in mind and faith,”to legitimize patriarchal norms. Cultural and religious ideologies were deeply embedded in thediscourse, with tweets frequently referencing Islamic texts, traditional morality, or social norms tolegitimize gender inequality. Unlike other languages where dehumanization is often enactedthrough misgendering via neutral pronouns, Arabic’s gender-marked system leads to what thisstudy conceptualizes as hyper-gendering—an intensified marking of gender through overtmorphology and plural forms that exaggerate women’s difference and reinforce binary hierarchies.This hyper-gendering magnifies women’s perceived moral or intellectual deficiencies rather thanerasing their gender identity and position them as hyper-visible yet devalued subjects.By employing a mixed-methods approach that incorporates both computational tools andqualitative analysis, this research provides deeper insight into the implicit forms of misogyny thatautomated detection methods alone have struggled to uncover. The study contributes to a growingbody of work on digital misogyny by contextualizing it within Arabic linguistic and culturalframeworks and offer a more nuanced understanding of how gendered power operates in onlinespaces.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">Between Cultures, Between Words: Politeness and Request Strategies Among Heritage Speakers of Arabic in the US</div>
+                        <span class="poster-row-author">Duaa Makhoul</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">This study presents an examination of the request speech act strategies and levels of directness producedby Heritage Speakers (HSs) of Levantine Arabic in a Heritage language context in the United States.Hypothesizing that English interactional experience will affect the speaker’s use of directness in framingan impositional move. The study focuses on directness, politeness markers, and mitigation employedacross different levels of imposition. Prior research on HSs of Arabic has mainly addressed morphosyntaxand phonology (Benmamoun et al., 2013; Montrul, 2021). It has also investigated the speech act ofrequest in Arabic L1 contexts (Al-Ageel 2016; Al-Masaeed 2023). However, there has been limitedinvestigation of pragmatic competence, particularly in face-threatening acts like requests (Brown&Levinson, 1987; Blum-Kulka & Olshtain, 1984). Moreover, little is known about how Arabic pragmaticnorms are maintained or adapted among HSs in bilingual settings. This study addresses this gap byinvestigating how HSs formulate requests in Arabic, how direct their strategies are, and how politenessand mitigation devices are employed in different social conditions.The study uses online oral role-play scenarios for 6 pairs of female participants born in the US or whoarrived before the age of 5. The role-play scenarios vary in both imposition and social distance. Theparticipants’ conversation statements are analyzed for both directness and politeness. The directness isevaluated using the Cross-Cultural Act Realization Project (CCSARP), which categorizes speech acts intothree main groups: (1) direct, (2) conventionally indirect, and (3) nonconventional indirect strategies. Thepoliteness is analyzed using the evaluative framework developed by Brown and Levinson’s politenesstheory (1987) and Culpeper’s (2011). In the analysis, the evaluation also includes measuring the use ofmitigation devices such as hedges, apologies, politeness markers, and appeals to solidarity. Results reveala strong preference for Conventional Indirect strategies, primarily Query Preparatory forms, i.e.,referencing willingness, ability, or possibility (e.g., momken taʿṭīnī al-kitāb? “Can you hand me thebook?”), affirming Arabic norms of politeness even in L2 contexts. Also, the HSs use indirect requeststrategies more in contexts of high imposition and social distance, reflecting both Arabic cultural normsof deference and bilingual pragmatic adjustment. The results also show that politeness and mitigationmarkers (law samaḥt, min faḍlak) and softeners (apology, justifications, and excuses) appear twice asoften in high-imposition scenarios compared to those of lower imposition, serving to mitigate face-threatening acts.These findings highlight how Arabic politeness conventions persist yet evolve in heritage contexts,supporting the view that pragmatic competence is a key site of cultural continuity. By emphasizing thepragmatic aspects of heritage language use and Arabic politeness within bilingual pragmatics, this studybroadens the scope of Arabic linguistics to include heritage speaker pragmatics, offering new insights intohow Arabic communicative norms are negotiated, preserved, and transformed across generations. It alsohelps in expanding the understanding of Arabic heritage pragmatics and highlights its implications forpedagogy, particularly in fostering sociocultural awareness and pragmatic competence.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">Acoustic Correlates to Laryngeal Articulation in Pharyngeal Consonants in Modern Standard Arabic</div>
+                        <span class="poster-row-author">Benjamin Lang</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">Pharyngeal consonants /ħ ʕ/ are traditionally described in the Handbook of the IPA (International Phonetic Association, 1999) as having a constriction in the back of the throat between the tongue body and the pharyngeal wall. Previous studies identify vowel formant changes, such as raising of F1 and lowering of F2 on adjacent vowels and through pharyngeal segments, as primary acoustic correlates to this pharyngeal articulation (Khattab et al., 2018; Heselwood, 2007). In contrast, the Laryngeal Articulator Model (LAM) (Esling et al., 2019; Esling, 2005) proposes that pharyngeal consonants are realized as a raising and narrowing of the epilaryngeal tube, and are thus articulated within the larynx, with co-occurring glottal states. In the present study, we examine recordings of L1 Arabic speakers producing /h ʔ ħ ʕ w j/ in Modern Standard Arabic to assess the contribution of laryngeal articulation during the production of pharyngeal consonants.If pharyngeal consonants arise from laryngeal articulations rather than tongue root retraction, then acoustic correlates such as residual H1 (correlated with glottal spreading/constriction) and SoE (correlated with voicing intensity), which are typically used to assess varying states of the glottis (Garellek, 2019), are predicted to additionally characterize pharyngeal articulation. According to the LAM, /ħ/ is expected to be voiceless and spread glottis, predicting lower SoE (weak to no voicing) and higher Residual H1* (spread glottis), while /ʕ/ is expected to be voiced and modal, predicting higher SoE (stronger voicing) and lower Residual H1* (constricted glottis). For both /ħ ʕ/, F1 is expected to be higher relative to /h ʔ/ due to laryngeal raising.31 speakers of L1 Arabic (Mean Age: 24, Range: 19–46; Gender: 21 women, 9 men, 1 non-binary person) were recorded in a sound booth producing 128 target words with target consonants /h ʔ ħ ʕ w j/ in word-initial, word-medial, and word-final positions in Modern Standard Arabic. Target words were embedded in one of two nearly identical carrier phrases, e.g., Phrase A لاقلمأدحواونیسمخرةم [qɑl ʔamal wæħɪd wa xamsin mara] “He said ‘hope’ fifty-one times” (16 speakers) or Phrase B ُلقلمأدحواونیسمخرةم [qʊl ʔamal wæħɪd wa xamsin mara] “Say(m.) ‘hope’ fifty-one times” (15 speakers). The carrier phrase changed midway through the experiment due to the tendency of speakers to insert a vowel following [qɑl]. Target consonants were segmented by hand using Praat (Boersma and Weenink, 2022). Acoustic measurements for F1, H1̈*, SoE, and Energy were extracted from each millisecond of target consonants using VoiceSauce (Shue et al., 2011). Residual H1*, the remaining amplitude of f0 when factoring out overall energy, was additionally calculated to differentiate phonation types (Chai and Garellek, 2024). Linear mixed-effects regression models were fit predicting average, speaker-normalized Residual H1*, SoE, and F1 with segment as a fixed effect and speaker and target word as random effects using lme4 in R (Bates et al., 2015).For /ħ/, higher F1 and lower SoE vary as predicted by the LAM, indicating laryngeal raising and voicelessness, but Residual H1* is significantly lower relative to other consonants, indicating a degree of constriction opposite the predicted glottal spreading. For /ʕ/, higher SoE, lower Residual H1*, and higher F1 all vary as predicted by the LAM, indicating laryngeal raising, voicing, and slightly constricted glottis relative to modal /j w/.Overall, more than tongue root retraction characterizes production of these sounds, providing evidence for the connected states of articulation between pharyngeal and laryngeal sounds proposed in the LAM. Following these results, it is worth considering how correlates to laryngeal articulation may contribute to any pharyngeal articulation in Arabic, given extensive work highlighting traditional tongue root retraction for pharyngealized consonants (Kulikov et al., 2021; Hermes et al., 2015; Israel et al., 2012; Al-Tamimi et al., 2009; Khattab et al., 2006; Asher and Laufer, 1988), and the phonetic and phonological descriptions relating pharyngeal articulation to the broader guttural or “emphatic” consonant class (McCarthy, 1994). Further analyses will investigate the temporal extent and changes in acoustic correlates to laryngeal articulation across pharyngeal consonants and adjacent segments.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">Spatial Prepositions in Najdi Arabic</div>
+                        <span class="poster-row-author">Hammad Alshammari</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">Recent treatment of prepositional phrases (PPs) in the literature has shifted from a single-projection modelto a dual-projection model that reflects their syntactic and semantic properties. However, the dual projection modelstill requires refinement regarding the issue of overlaps among prepositions, the ambiguity between possessive andlocative constructions, and the interaction between locative prepositions and adverbial nouns "dˤuruf". Therefore,this study aims to investigate and analyze the internal structure of spatial PPs in Najdi Arabic to refine currentcartographic analyses of the PP domain and fill gaps in the syntax of PPs. Building on proposals that decompose thePP into multiple functional layers (Koopman 2000; Svenonius 2006; Den Dikken 2010; Cinque 2010), the studyexamines how Najdi spatial prepositions encode distinctions between Place and Path, how certain prepositionsalternate between locative and possessive interpretations, and how adverbial spatial nouns behave in relation toprepositions. These empirical findings raise important theoretical questions about: a. whether prepositions are lexicalor functional in nature, b. where arguments are introduced in the structure, and c. how the architecture of extendedPPs should be represented.Najdi Arabic provides a rich testing ground for these theoretical issues because many spatial prepositions inthe language are homophonous with possessive markers, undergo systematic polysemy, and exhibit alternations tieddirectly to the syntactic environment. For example, the preposition /ʕala/ ‘on’ can function as a stative locative P, ascalar adjective, or a verbal preposition expressing a change of state, as illustrated in (1), as proposed by Fassi Fehriand Alrawi (2023-2024). Similarly, /fi:/ ‘in’ alternates between spatial and abstract-state interpretations, as in (2).(1) a. ʔal-miftaħ ʕala ʔatˤawlah (2) a. ʔana: fii ʔal-ʒa:miʕahDEF-key on DEF-table I in DEF-university“The key is on the table” “I’m at the university” (spatial)b. ʔifari:st ʔaʕla min tˤwaq b. xa:lid fii muʃkilahEverest higher from tuwaiq Khalid in trouble“Everest is higher than tuwaiq” “Khalid is in trouble” (a change of state)c. ʔaħmad ʕala-ah ʔal-ħizanAhmed overwhelmed-3rd.S.M DEF-sadness“Ahmed was overwhelmed with sadness”Regrading /ʕala/, which has been argued to show categorial flexibility and possibly derived from a locative root, Iargue that this analysis is problematic. There is no morphological or semantic evidence that /ʕala/ originates from aroot with [+loc] feature. Instead, /ʕala/, I assume, functions as a fixed functional head whose interpretation shiftsaccording to its syntactic position rather than through a root-based flexibility. On the other side, I argue that thepreposition /fi:/ ‘in’ in Najdi Arabic alternates between spatial and abstract-state meanings, captured through alayered PP structure. In (2a), /fiː/ merges as the head of Place0, which expresses physical containment, as in (3a). onthe other hand,in (2b), /fi:/ moves to or lexicalizes a higher functional head, State0, which denotes non-spatialcontainment, as in (3b). The syntactic layering could account for the alternation, suggesting that the differentinterpretations are determined by the structural position at which /fi:/ is merged.(3) a. [PlaceP DP [Place0 fi: [KP DP]]] (4) *ʔal-wa:lid wagaf bi-gada:m ʔal-baytDEF-boy stand at-front DEF-houseb. [StateP DP [State0 fi: [PalceP [KP DP]]]] “The boy is standing in front of the house”(5) maʃi:t min gadam ʔal-byatwalked.1st.S from front DEF-house“I walked from in front of the house”A further empirical puzzle concerns the co-occurrence of locative prepositions and adverbial nouns such as/gadam/ "front" and /wara/ "back". Cross-linguistically, the combinations of these two elements is permitted (e.g., infront of), forming a PlaceP + AxPartP structure. In Najdi, however, this sequence is rendered ungrammatical, asshown in (4). At the same time, the co-occurrence of Path prepositions and adverbial nouns remains acceptable, as in(5). The unexpected behavior of adverbial nouns with Place prepositions, given cross-linguistic evidence, suggeststhat these nouns may have undergone partial grammaticalization as independent locative heads, carrying a [locative]feature that eliminates the need for an overt Place head, contrary to assumptions in existing cartographic models.Evidence from argument structure, P-compatibility with stative vs. motion predicates, and structuralalternations supports a hierarchical decomposition of the PP into PathP, PlaceP, AxPartP, KP, and PossP. Eachprojection contributes a distinct semantic function and is rigidly ordered.The outcomes of this research provide a new fine-grained account of spatial PPs in Najdi, clarify theinterplay between location and possession, and motivate a revision of how axial nouns and location heads interactwithin PP structure.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">Emphatic Imperatives in Iraqi Arabic</div>
+                        <span class="poster-row-author">Mahmood Al Fkaiki</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">The imperative has syntactically and semantically received a great deal of attention in the linguistic literature (Zanuttini 1997, Benmamoun 2000, Aloni and Ciardelli 2011, Potsdam 1998 and 2007, Haddad 2020, Rupp 2003, Portner 2016, Zanuttini, Pak and Portner 2012, Portner 2007, Kaufmann 2012). Zanittini (1997) syntactically suggests that imperatives are derived via V-to-C movement. In Arabic, Benmamoun (2000) adopts Lasnik’s analysis (1981) to represent the syntax of imperatives, and he assumes that a functional projection in imperative sentences is headed by an imperative feature. Crosslinguistically, languages tend to use the imperative either in a regular syntactic structure or an emphatic syntactic structure, and the emphatic imperatives are often achieved through specific linguistic features such as intonation, word choice, or repetition. For example, imperatives in English appeareither with normal imperatives (sit down!) or with emphatic imperatives through adding an auxiliary "do" (Do sit down!) where they denote a strong sense of urgency or insistence (a speaker has a strong desire for the addressee to perform the action or she/he shows some feeling of anger or emotion or urgency).In Arabic varieties such as Iraqi Arabic (IA), affirmative imperatives appear in two different structures. The first structure occurs as a normal imperative construction as in (1a). However, the second imperative structure in (1b) appears with a prefix /də/ which is previously unnoticed. In this paper, I argue that the prefix /də/ attached to imperatives is realized as an emphatic marker requesting to do something immediately where this marker bears the lexical realization of an “imperative” feature, as shown in (1b).(1) a. iktb wa:dʒb-k normal imperativewrite homework-your“Do your homework!”b. d-iktb wa:dʒb-k1 emphatic imperativeEm-write homework-your“Do your homework!”I propose that the emphatic prefix /de/ is located in the functional projection I call Emphatic Phrase (EmP) which is headed by the prefix /də/ . I propose that an imperative form is generated in the head of the VP, and it moves multipely, according to Head Movement Constraint (Travis1984). Lastly, the imperative form merges with the head of EmP, as shown in (2).This marker occurs with a conjunction of imperatives in different syntactic structures. The existence of a connector /w/ allows the emphatic marker to be with the first imperative only, as illustrated in (3a), but the emphatic prefix is illicit when appearing with each single imperative, as in (3b).(3) a. də-kul w ʃrab!Em-eat and drink“Do eat and drink!”b. ??də-kul w də-ʃrab!Em-eat and Em-drinkThis description suggests the following: (i) the single emphatic marker allows the imperative to connect with another imperative as in (3a) in which IA uses a single emphatic operator to connect two imperatives through a connector “w”. However, IA doesn’t permit two emphatic operators with imperatives when linking via a connector, as in (3b). (ii) when we have a single emphatic operator, the connected imperatives refer to a single compound clause. (iii) the forced single operator in (3a) applies to both actions together. (iv) the emphatic marker has a wide scope, including both actions in (3a). More details come with the whole paper.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">Phonological Transfer and Markedness Effects in Saudi Arabic Speakers' English Obstruent Production</div>
+                        <span class="poster-row-author">Amirah Alruwais</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">A Semantic-Syntactic Typology of Medieval Arabic Proverbial Structures</div>
+                        <span class="poster-row-author">Hedi Majdoub</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                    </div>
+                    <div class="poster-row">
+                        <div class="poster-row-title">Bilingual and Diglossic Code-Switching in Egyptian, SA, and English: A Comparative MEG Study</div>
+                        <span class="poster-row-author">Zainab Hermes</span>
+                        <button class="abstract-toggle">Abstract <i>▼</i></button>
+                        <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                    </div>
+                </div>
+
+                <!-- Computational Linguistics Session -->
+                <div class="session-block">
+                    <div class="session-header theme-complingua">
+                        <span class="session-theme-badge">Computational</span>
+                        <span style="flex:1; font-weight:800;">Computational Linguistics Session</span>
+                        <span style="font-size:.65rem; color:#aaa;">2:30–4:30 PM</span>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">2:30–3:00</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Computational Modeling of Semantic Drift in Qur'anic Arabic and its English Translations: A Hybrid Embedding Approach</div>
+                            <span class="talk-author">Haq Nawaz</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">3:00–3:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Maskuk: Leveraging LLMs and the Web in Building an Arabic Collocation Dictionary</div>
+                            <span class="talk-author">Khaled Elghamry, Attia Youseif, Muhammad Abdo & Saad Yousef</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">3:30–4:00</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Natural Language Inference: Lost in Translation? Label Stability in Arabic MT</div>
+                            <span class="talk-author">Muhammad S. Abdo</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">4:00–4:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">When Syntax and Semantics Diverge: Semantic Agreement in Arabic and its NLP Implications</div>
+                            <span class="talk-author">Khaled Elghamry</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-break">
+                    <span class="pill-time">4:30–4:45 PM</span>
+                    <span class="pill-label">☕ Coffee Break</span>
+                </div>
+
+                <!-- Keynote II -->
+                <div class="keynote-block">
+                    <div style="flex:1;">
+                        <span style="color:var(--gold); font-size:.7rem; letter-spacing:.2rem; text-transform:uppercase;">Keynote II</span>
+                        <div class="keynote-speaker">Muhammad Abdul-Mageed</div>
+                        <div style="color:rgba(255,255,255,0.5); font-size:.8rem;">The University of British Columbia, Canada</div>
+                        <div class="keynote-talk-title">Measuring Arabic Competence in Modern Models: Variation, Cultural Meaning, and Contextual Appropriateness Across Varieties</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="color:var(--gold); font-family:'Space Mono'; font-size:.75rem;">4:45–5:45 PM</span>
+                    </div>
+                </div>
+
+                <div class="social-block">
+                    <div>
+                        <div style="font-weight:800; color:#6b4c00;">Welcome Reception</div>
+                        <div style="font-size:.85rem; color:#a07820;">Federal Room, Indiana Memorial Union (IMU)</div>
+                    </div>
+                    <span class="social-time">6:00–7:15 PM</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ SATURDAY, MARCH 28 ══ -->
+        <div id="tab-saturday" class="tab-pane">
+            <div class="day-wrap">
+                <div class="sched-pill pill-registration">
+                    <span class="pill-time">8:00–9:00 AM</span>
+                    <span class="pill-label">☕ Registration and Coffee</span>
+                </div>
+
+                <!-- Phonetics/Phonology Session -->
+                <div class="session-block">
+                    <div class="session-header theme-phonetics">
+                        <span class="session-theme-badge">Phonetics</span>
+                        <span style="flex:1; font-weight:800;">Phonetics / Phonology Session</span>
+                        <span style="font-size:.65rem; color:#aaa;">9:00–10:30 AM</span>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">9:00–9:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Prevoicing is perceptually redundant: evidence from one Arabic and two Iranian languages</div>
+                            <span class="talk-author">Nawal Bahrani</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">9:30–10:00</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Toward Customizable Forced-Alignment for Dialectal Arabic Speech</div>
+                            <span class="talk-author">Rachel Meyer</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">10:00–10:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Sonority as a design principle in Arabic quadriliteral root architecture</div>
+                            <span class="talk-author">Mashaell Almuhawes and Ali Idrissi</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-break">
+                    <span class="pill-time">10:30–10:45 AM</span>
+                    <span class="pill-label">☕ Coffee Break</span>
+                </div>
+
+                <!-- Keynote III -->
+                <div class="keynote-block">
+                    <div style="flex:1;">
+                        <span style="color:var(--gold); font-size:.7rem; letter-spacing:.2rem; text-transform:uppercase;">Keynote III</span>
+                        <div class="keynote-speaker">Jalal Al-Tamimi</div>
+                        <div style="color:rgba(255,255,255,0.5); font-size:.8rem;">Université Paris Cité, France</div>
+                        <div class="keynote-talk-title">On the Role of Fine Phonetic Detail in Arabic Phonology</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="color:var(--gold); font-family:'Space Mono'; font-size:.75rem;">10:45–11:45 AM</span>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-lunch">
+                    <span class="pill-time">11:45 AM – 1:00 PM</span>
+                    <span class="pill-label">🍽️ Catered Lunch & Business Meeting</span>
+                </div>
+
+                <!-- L2 / Heritage Session -->
+                <div class="session-block">
+                    <div class="session-header theme-l2">
+                        <span class="session-theme-badge">L2 / Heritage</span>
+                        <span style="flex:1; font-weight:800;">L2 / Heritage Session</span>
+                        <span style="font-size:.65rem; color:#aaa;">1:00–2:00 PM</span>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">1:00–1:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Arabic Heritage Speakers’ Perception of Emphatic–Plain Contrasts: The Influence of Vowel Context and Consonant Position</div>
+                            <span class="talk-author">Maaly Al Omary</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">1:30–2:00</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Crosslinguistic Influence and Protracted Instability in L2: Generic Plurals in Arabic</div>
+                            <span class="talk-author">Mahmoud Azaz</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-break">
+                    <span class="pill-time">2:00–2:15 PM</span>
+                    <span class="pill-label">☕ Coffee Break</span>
+                </div>
+
+                <!-- Pragmatics / Discourse -->
+                <div class="session-block">
+                    <div class="session-header theme-egyptian">
+                        <span class="session-theme-badge">Pragmatics</span>
+                        <span style="flex:1; font-weight:800;">Pragmatics / Discourse</span>
+                        <span style="font-size:.65rem; color:#aaa;">2:15–4:30 PM</span>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">2:15–2:45</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Stylistic Terms of Address among Couples in Egyptian TV Series</div>
+                            <span class="talk-author">Hasnaa Essam Farag</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">2:45–3:15</div>
+                        <div class="talk-body">
+                            <div class="talk-title">From Khilāfah to Dawlah Madaniyyah: A CDA of Ideological Rearticulation in the Muslim Brotherhood's Political Language</div>
+                            <span class="talk-author">Mohamed Sayed</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">3:15–3:45</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Vocatives as Attitudinal Markers: The Tunisian Arabic Particle ha:</div>
+                            <span class="talk-author">Amel Khalfaoui</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">3:45–4:15</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Discourse of Manipulation in Egyptian Presidential Interviews (2012): A Pragma-Critical Analysis</div>
+                            <span class="talk-author">Maged Nofal</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-break">
+                    <span class="pill-time">4:15–4:30 PM</span>
+                    <span class="pill-label">☕ Coffee Break</span>
+                </div>
+
+                <!-- Keynote IV -->
+                <div class="keynote-block">
+                    <div style="flex:1;">
+                        <span style="color:var(--gold); font-size:.7rem; letter-spacing:.2rem; text-transform:uppercase;">Keynote IV</span>
+                        <div class="keynote-speaker">Nihal Nagi Sarhan</div>
+                        <div style="color:rgba(255,255,255,0.5); font-size:.8rem;">Ain Shams University, Egypt</div>
+                        <div class="keynote-talk-title">Scripts of Power: Decoding Cairo's Linguistic Landscape</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="color:var(--gold); font-family:'Space Mono'; font-size:.75rem;">4:30–5:30 PM</span>
+                    </div>
+                </div>
+
+                <div class="social-block">
+                    <div>
+                        <div style="font-weight:800; color:#6b4c00;">Conference Dinner</div>
+                        <div style="font-size:.85rem; color:#a07820;">Marco & Polo Restaurant</div>
+                    </div>
+                    <span class="social-time">6:00 PM Onward</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ SUNDAY, MARCH 29 ══ -->
+        <div id="tab-sunday" class="tab-pane">
+            <div class="day-wrap">
+                <div class="sched-pill pill-registration">
+                    <span class="pill-time">8:15–8:45 AM</span>
+                    <span class="pill-label">☕ Coffee</span>
+                </div>
+
+                <!-- Morphology and Lexicon Session -->
+                <div class="session-block">
+                    <div class="session-header theme-morphology">
+                        <span class="session-theme-badge">Morphology</span>
+                        <span style="flex:1; font-weight:800;">Morphology and Lexicon Session</span>
+                        <span style="font-size:.65rem; color:#aaa;">8:45–10:45 AM</span>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">8:45–9:15</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Arabic Binominal Compound Constructions & Word Formation</div>
+                            <span class="talk-author">Anthony Bucco</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">9:15–9:45</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Evaluating Arabic Morphological Analyzers on Moroccan Arabic Diminutives</div>
+                            <span class="talk-author">Fedoua Rahmaouy</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">9:45–10:15</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Permeability and stratification in the Moroccan Arabic diglossic lexicon</div>
+                            <span class="talk-author">Ali Idrissi and Ali Nirheche</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">10:15–10:45</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Differential Semantic Retention Patterns of Standard Arabic Lexicon in Regional Dialects</div>
+                            <span class="talk-author">Attia Youseif</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-break">
+                    <span class="pill-time">10:45–11:00 AM</span>
+                    <span class="pill-label">☕ Coffee Break</span>
+                </div>
+
+                <!-- Grammar Issues Session -->
+                <div class="session-block">
+                    <div class="session-header theme-grammar">
+                        <span class="session-theme-badge">Grammar</span>
+                        <span style="flex:1; font-weight:800;">Grammar Issues Session</span>
+                        <span style="font-size:.65rem; color:#aaa;">11:00 AM – 1:00 PM</span>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">11:00–11:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">The discourse function of second-person clitics in Khuzestani Arabic</div>
+                            <span class="talk-author">Seyyed Hatam Tamimi Sa'd</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">11:30–12:00</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Evidence for Indexical Shift in Moroccan Arabic</div>
+                            <span class="talk-author">Hafida Iguir</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                    <div class="talk-row">
+                        <div class="talk-time">12:00–12:30</div>
+                        <div class="talk-body">
+                            <div class="talk-title">Answering systems and proposition salience: Evidence from Hijazi Arabic</div>
+                            <span class="talk-author">Aisha Fuddah</span>
+                            <button class="abstract-toggle">Abstract <i>▼</i></button>
+                            <div class="abstract-content"><div class="abstract-inner">Abstract content will be added here.</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-pill pill-closing">
+                    <span class="pill-time">12:30 PM</span>
+                    <span class="pill-label" style="color:var(--iu-crimson);">🎓 Closing Remarks — End of Symposium</span>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <!-- ══ FRIDAY, MARCH 27 ══ -->
-    <div id="tab-friday" class="tab-pane active">
-      <div class="day-wrap">
-
-        <div class="sched-pill pill-registration">
-          <span class="pill-time">8:00–8:40 AM</span>
-          <span class="pill-label">☕ Registration and Coffee</span>
-        </div>
-        <div class="sched-pill pill-opening">
-          <span class="pill-time">8:40–8:45 AM</span>
-          <span class="pill-label">🎙️ Opening Remarks</span>
-        </div>
-
-        <!-- Syntax Session -->
-        <div class="session-block">
-          <div class="session-header theme-syntax">
-            <span class="session-theme-badge">Syntax</span>
-            <span class="session-header-title">Syntax Session</span>
-            <span class="session-header-time">8:45–10:45 AM</span>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">8:45–9:15</div>
-            <div class="talk-body">
-              <div class="talk-title">The syntax of ditransitives in Najdi Arabic.</div>
-              <div class="talk-author">Reem Alshammeri</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">9:15–9:45</div>
-            <div class="talk-body">
-              <div class="talk-title">The Syntax of Exceptional Exceptive Constructions in Tunisian Arabic (TA)</div>
-              <div class="talk-author">Mohamed Jlassi</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">9:45–10:15</div>
-            <div class="talk-body">
-              <div class="talk-title">Anybody Can, But Him &amp; You Cannot: A New PCC Type in Malki Arabic and Its Implications</div>
-              <div class="talk-author">Fahad Almalki</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">10:15–10:45</div>
-            <div class="talk-body">
-              <div class="talk-title">A Narrative Function for the Historical Present in Egyptian Arabic</div>
-              <div class="talk-author">Michael White</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-break">
-          <span class="pill-time">10:45–11:00 AM</span>
-          <span class="pill-label">☕ Coffee Break</span>
-        </div>
-
-        <!-- Keynote I -->
-        <div class="keynote-block">
-          <div style="flex:1;">
-            <span class="keynote-kicker">Keynote I</span>
-            <div class="keynote-speaker">Usama Soltan</div>
-            <div class="keynote-affil">Middlebury College, United States</div>
-            <div class="keynote-talk-title">On the Morphosyntax of Adnominal Demonstratives in Egyptian Arabic</div>
-          </div>
-          <div class="keynote-block-time">
-            <span class="k-time">11:00 AM – 12:00 PM</span>
-            <span class="k-loc">📍 Radio-TV 251</span>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-lunch">
-          <span class="pill-time">12:00–1:00 PM</span>
-          <span class="pill-label">🍽️ Lunch Break</span>
-        </div>
-
-        <!-- Poster Session — 8 posters, located in Global Studies bottom floor hallway / room 0013 -->
-        <div class="poster-block">
-          <div class="poster-header">
-            <span class="poster-badge">Poster Session</span>
-            <span class="poster-title">Poster Session</span>
-            <span style="margin-left:auto; font-family:'Space Mono',monospace; font-size:.65rem; color:#555; white-space:nowrap; text-align:right; line-height:1.5;">
-              1:00–2:15 PM<br>
-              📍 Global Studies Building, Bottom Floor Hallway &amp; Room 0013
-            </span>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">Online Misogyny in Saudi Arabia: A Linguistic Analysis of X Discourse</div>
-            <div class="poster-row-author">Arwa Alquayb</div>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">Between Cultures, Between Words: Politeness and Request Strategies Among Heritage Speakers of Arabic in the US</div>
-            <div class="poster-row-author">Duaa Makhoul</div>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">Acoustic Correlates to Laryngeal Articulation in Pharyngeal Consonants in Modern Standard Arabic</div>
-            <div class="poster-row-author">Benjamin Lang</div>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">Spatial Prepositions in Najdi Arabic</div>
-            <div class="poster-row-author">Hammad Alshammari</div>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">Emphatic Imperatives in Iraqi Arabic</div>
-            <div class="poster-row-author">Mahmood Al Fkaiki</div>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">Phonological Transfer and Markedness Effects in Saudi Arabic Speakers' English Obstruent Production</div>
-            <div class="poster-row-author">Amirah Alruwais</div>
-          </div>
-          <div class="poster-row">
-            <div class="poster-row-title">A Semantic-Syntactic Typology of Medieval Arabic Proverbial Structures</div>
-            <div class="poster-row-author">Hedi Majdoub</div>
-          </div>
-          <!-- Zainab Hermes moved from Saturday talk to Friday poster (same title) -->
-          <div class="poster-row">
-            <div class="poster-row-title">Bilingual and Diglossic Code-Switching in Egyptian, SA, and English: A Comparative MEG Study</div>
-            <div class="poster-row-author">Zainab Hermes</div>
-          </div>
-        </div>
-
-        <!-- Computational Linguistics Session -->
-        <div class="session-block">
-          <div class="session-header theme-complingua">
-            <span class="session-theme-badge">Computational</span>
-            <span class="session-header-title">Computational Linguistics Session</span>
-            <span class="session-header-time">2:30–4:30 PM</span>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">2:30–3:00</div>
-            <div class="talk-body">
-              <div class="talk-title">Computational Modeling of Semantic Drift in Qur'anic Arabic and its English Translations: A Hybrid Embedding Approach</div>
-              <div class="talk-author">Haq Nawaz</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">3:00–3:30</div>
-            <div class="talk-body">
-              <div class="talk-title">Maskuk: Leveraging LLMs and the Web in Building an Arabic Collocation Dictionary</div>
-              <div class="talk-author">Khaled Elghamry, Attia Youseif, Muhammad Abdo &amp; Saad Yousef</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">3:30–4:00</div>
-            <div class="talk-body">
-              <div class="talk-title">Natural Language Inference: Lost in Translation? Label Stability in Arabic MT</div>
-              <div class="talk-author">Muhammad S. Abdo</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">4:00–4:30</div>
-            <div class="talk-body">
-              <div class="talk-title">When Syntax and Semantics Diverge: Semantic Agreement in Arabic and its NLP Implications</div>
-              <div class="talk-author">Khaled Elghamry</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-break">
-          <span class="pill-time">4:30–4:45 PM</span>
-          <span class="pill-label">☕ Coffee Break</span>
-        </div>
-
-        <!-- Keynote II -->
-        <div class="keynote-block">
-          <div style="flex:1;">
-            <span class="keynote-kicker">Keynote II</span>
-            <div class="keynote-speaker">Muhammad Abdul-Mageed</div>
-            <div class="keynote-affil">The University of British Columbia, Canada</div>
-            <div class="keynote-talk-title">Measuring Arabic Competence in Modern Models: Variation, Cultural Meaning, and Contextual Appropriateness Across Varieties</div>
-          </div>
-          <div class="keynote-block-time">
-            <span class="k-time">4:45–5:45 PM</span>
-            <span class="k-loc">📍 Radio-TV 251</span>
-          </div>
-        </div>
-
-        <div class="social-block">
-          <span class="social-icon"></span>
-          <div class="social-body">
-            <div class="social-label">Welcome Reception</div>
-            <div class="social-detail">Federal Room, Indiana Memorial Union (IMU)</div>
-          </div>
-          <span class="social-time">6:00–7:15 PM</span>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ══ SATURDAY, MARCH 28 ══ -->
-    <!-- All times shifted +30 min until the 3:15 PM coffee break (first talk now 9:00 instead of 8:30) -->
-    <div id="tab-saturday" class="tab-pane">
-      <div class="day-wrap">
-        <div class="sched-pill pill-registration">
-          <span class="pill-time">8:00–9:00 AM</span>
-          <span class="pill-label">☕ Registration and Coffee</span>
-        </div>
-
-        <!-- Phonetics/Phonology Session -->
-        <div class="session-block">
-          <div class="session-header theme-phonetics">
-            <span class="session-theme-badge">Phonetics</span>
-            <span class="session-header-title">Phonetics / Phonology Session</span>
-            <span class="session-header-time">9:00–10:30 AM</span>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">9:00–9:30</div>
-            <div class="talk-body">
-              <div class="talk-title">Prevoicing is perceptually redundant: evidence from one Arabic and two Iranian languages</div>
-              <div class="talk-author">Nawal Bahrani</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">9:30–10:00</div>
-            <div class="talk-body">
-              <div class="talk-title">Toward Customizable Forced-Alignment for Dialectal Arabic Speech</div>
-              <div class="talk-author">Rachel Meyer</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">10:00–10:30</div>
-            <div class="talk-body">
-              <div class="talk-title">Sonority as a design principle in Arabic quadriliteral root architecture</div>
-              <div class="talk-author">Mashaell Almuhawes and Ali Idrissi</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-break">
-          <span class="pill-time">10:30–10:45 AM</span>
-          <span class="pill-label">☕ Coffee Break</span>
-        </div>
-
-        <!-- Keynote III -->
-        <div class="keynote-block">
-          <div style="flex:1;">
-            <span class="keynote-kicker">Keynote III</span>
-            <div class="keynote-speaker">Jalal Al-Tamimi</div>
-            <div class="keynote-affil">Université Paris Cité, France</div>
-            <div class="keynote-talk-title">On the Role of Fine Phonetic Detail in Arabic Phonology</div>
-          </div>
-          <div class="keynote-block-time">
-            <span class="k-time">10:45–11:45 AM</span>
-            <span class="k-loc">📍 Radio-TV 251</span>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-lunch">
-          <span class="pill-time">11:45 AM – 1:00 PM</span>
-          <span class="pill-label">🍽️ Catered Lunch &amp; Business Meeting</span>
-          <span class="pill-location">📍 Radio-TV 251</span>
-        </div>
-
-        <!-- L2 / Heritage Session -->
-        <div class="session-block">
-          <div class="session-header theme-l2">
-            <span class="session-theme-badge">L2 / Heritage</span>
-            <span class="session-header-title">L2 / Heritage Session</span>
-            <span class="session-header-time">1:00–2:00 PM</span>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">1:00–1:30</div>
-            <div class="talk-body">
-              <div class="talk-title">Arabic Heritage Speakers’ Perception of Emphatic–Plain Contrasts: The Influence of Vowel Context and Consonant Position</div>
-              <div class="talk-author">Maaly Al Omary</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">1:30–2:00</div>
-            <div class="talk-body">
-              <div class="talk-title">Crosslinguistic Influence and Protracted Instability in L2: Generic Plurals in Arabic</div>
-              <div class="talk-author">Mahmoud Azaz</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-break">
-          <span class="pill-time">2:00–2:15 PM</span>
-          <span class="pill-label">☕ Coffee Break</span>
-        </div>
-<!-- Merged Pragmatics / Discourse Session -->
-<div class="session-block">
-  <div class="session-header theme-egyptian">
-    <span class="session-theme-badge">Pragmatics / Discourse</span>
-    <span class="session-header-title">Pragmatics / Discourse</span>
-    <span class="session-header-time">2:15–4:30 PM</span>
-  </div>
-
-  <div class="talk-row">
-    <div class="talk-time">2:15–2:45</div>
-    <div class="talk-body">
-      <div class="talk-title">Stylistic Terms of Address among Couples in Egyptian TV Series</div>
-      <div class="talk-author">Hasnaa Essam Farag</div>
-    </div>
-  </div>
-
-  <div class="talk-row">
-    <div class="talk-time">2:45–3:15</div>
-    <div class="talk-body">
-      <div class="talk-title">From Khilāfah to Dawlah Madaniyyah: A CDA of Ideological Rearticulation in the Muslim Brotherhood's Political Language</div>
-      <div class="talk-author">Mohamed Sayed</div>
-    </div>
-  </div>
-
-  <div class="talk-row">
-    <div class="talk-time">3:15–3:45</div>
-    <div class="talk-body">
-      <div class="talk-title">Vocatives as Attitudinal Markers: The Tunisian Arabic Particle ha:</div>
-      <div class="talk-author">Amel Khalfaoui</div>
-    </div>
-  </div>
-
-  <div class="talk-row">
-    <div class="talk-time">3:45–4:15</div>
-    <div class="talk-body">
-      <div class="talk-title">Discourse of Manipulation in Egyptian Presidential Interviews (2012): A Pragma-Critical Analysis</div>
-      <div class="talk-author">Maged Nofal</div>
-    </div>
-  </div>
-</div>
-
-<div class="sched-pill pill-break">
-  <span class="pill-time">4:15–4:30 PM</span>
-  <span class="pill-label">☕ Coffee Break</span>
-</div>
-        <!-- Keynote IV — unchanged -->
-        <div class="keynote-block">
-          <div style="flex:1;">
-            <span class="keynote-kicker">Keynote IV</span>
-            <div class="keynote-speaker">Nihal Nagi Sarhan</div>
-            <div class="keynote-affil">Ain Shams University, Egypt</div>
-            <div class="keynote-talk-title">Scripts of Power: Decoding Cairo's Linguistic Landscape</div>
-          </div>
-          <div class="keynote-block-time">
-            <span class="k-time">4:30–5:30 PM</span>
-            <span class="k-loc">📍 Radio-TV 251</span>
-          </div>
-        </div>
-
-        <div class="social-block">
-          <span class="social-icon">🍽️</span>
-          <div class="social-body">
-            <div class="social-label">Conference Dinner</div>
-            <div class="social-detail">Marco & Polo Restaurant</div>
-          </div>
-          <span class="social-time">6:00 PM Onward</span>
-        </div>
-      </div>
-    </div> 
-    <!-- ══ SUNDAY, MARCH 29 ══ -->
-    <div id="tab-sunday" class="tab-pane">
-      <div class="day-wrap">
-        <div class="sched-pill pill-registration">
-          <span class="pill-time">8:15–8:45 AM</span>
-          <span class="pill-label">☕ Coffee</span>
-        </div>
-
-        <!-- Morphology and Lexicon Session -->
-        <div class="session-block">
-          <div class="session-header theme-morphology">
-            <span class="session-theme-badge">Morphology</span>
-            <span class="session-header-title">Morphology and Lexicon Session</span>
-            <span class="session-header-time">8:45–10:45 AM</span>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">8:45–9:15</div>
-            <div class="talk-body">
-              <div class="talk-title">Arabic Binominal Compound Constructions &amp; Word Formation</div>
-              <div class="talk-author">Anthony Bucco</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">9:15–9:45</div>
-            <div class="talk-body">
-              <div class="talk-title">Evaluating Arabic Morphological Analyzers on Moroccan Arabic Diminutives</div>
-              <div class="talk-author">Fedoua Rahmaouy</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">9:45–10:15</div>
-            <div class="talk-body">
-              <div class="talk-title">Permeability and stratification in the Moroccan Arabic diglossic lexicon</div>
-              <div class="talk-author">Ali Idrissi and Ali Nirheche</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">10:15–10:45</div>
-            <div class="talk-body">
-              <div class="talk-title">Differential Semantic Retention Patterns of Standard Arabic Lexicon in Regional Dialects</div>
-              <div class="talk-author">Attia Youseif</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sched-pill pill-break">
-          <span class="pill-time">10:45–11:00 AM</span>
-          <span class="pill-label">☕ Coffee Break</span>
-        </div>
-
-        <!-- Grammar Issues Session -->
-        <div class="session-block">
-          <div class="session-header theme-grammar">
-            <span class="session-theme-badge">Grammar</span>
-            <span class="session-header-title">Grammar Issues Session</span>
-            <span class="session-header-time">11:00 AM – 1:00 PM</span>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">11:00–11:30</div>
-            <div class="talk-body">
-              <div class="talk-title">The discourse function of second-person clitics in Khuzestani Arabic</div>
-              <div class="talk-author">Seyyed Hatam Tamimi Sa'd</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">11:30–12:00</div>
-            <div class="talk-body">
-              <div class="talk-title">Evidence for Indexical Shift in Moroccan Arabic</div>
-              <div class="talk-author">Hafida Iguir</div>
-            </div>
-          </div>
-          <div class="talk-row">
-            <div class="talk-time">12:00–12:30</div>
-            <div class="talk-body">
-              <div class="talk-title">Answering systems and proposition salience: Evidence from Hijazi Arabic</div>
-              <div class="talk-author">Aisha Fuddah</div>
-            </div>
-          </div>
-
-        <div class="sched-pill pill-closing">
-          <span class="pill-time">12:30 PM</span>
-          <span class="pill-label" style="color:var(--iu-crimson);">🎓 Closing Remarks — End of Symposium</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
 <footer>
-  <p><strong>39th Annual Symposium on Arabic Linguistics (ASAL 39)</strong></p>
-  <p>March 27–29, 2026 · Indiana University Bloomington</p>
-  <div style="margin-top:2rem; opacity: 0.8; display: flex; justify-content: center;">
-     <img src="log.jpg" style="height: 45px;" alt="IU Trident">
-  </div>
-  <p style="margin-top:1.5rem;">
-    <a href="index.html">Home</a> · <a href="about.html">About</a> · <a href="#">Register</a>
-  </p>
-  <p style="margin-top:1.5rem;font-size:.75rem; opacity: 0.4;">© 2026 Arabic Linguistics Society. All rights reserved.</p>
+    <p><strong>39th Annual Symposium on Arabic Linguistics (ASAL 39)</strong></p>
+    <p>March 27–29, 2026 · Indiana University Bloomington</p>
+    <div style="margin-top:2rem; opacity: 0.8; display: flex; justify-content: center;">
+        <img src="log.jpg" style="height: 45px;" alt="IU Trident">
+    </div>
+    <p style="margin-top:1.5rem;font-size:.75rem; opacity: 0.4;">© 2026 Arabic Linguistics Society.</p>
 </footer>
 
 <script>
-  /* ── TABS ── */
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
+    /* ── TABS ── */
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.page-hero').offsetHeight - 50, behavior: 'smooth' });
+        });
     });
-  });
 
-  /* ── NAVIGATION ── */
-  const ham = document.getElementById('hamburger');
-  const mob = document.getElementById('mobileMenu');
-  ham.addEventListener('click', () => { 
-    ham.classList.toggle('open'); 
-    mob.classList.toggle('open'); 
-  });
+    /* ── ABSTRACT TOGGLE ── */
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.abstract-toggle');
+        if (btn) {
+            const content = btn.nextElementSibling;
+            const isOpen = content.classList.contains('open');
+            
+            // Toggle classes
+            btn.classList.toggle('active');
+            content.classList.toggle('open');
+            
+            // Update Text
+            const arrow = '<i>▼</i>';
+            btn.innerHTML = isOpen ? `View Abstract ${arrow}` : `Hide Abstract ${arrow}`;
+        }
+    });
 
-  /* ── SCROLL REVEAL ── */
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    /* ── MOBILE MENU ── */
+    const ham = document.getElementById('hamburger');
+    const mob = document.getElementById('mobileMenu');
+    ham.addEventListener('click', () => {
+        ham.classList.toggle('open');
+        mob.classList.toggle('open');
+    });
 </script>
+
 </body>
 </html>
